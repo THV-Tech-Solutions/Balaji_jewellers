@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "479124155805",
+    "firebase_url": "https://jewelleryapp-9e127-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "jewelleryapp-9e127",
+    "storage_bucket": "jewelleryapp-9e127.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479124155805:android:b6c00e2a209ed6fa3e5374",
+        "android_client_info": {
+          "package_name": "com.example.jewellery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479124155805-h17nt9f2c2n34sl7fiit4urrd9knht6c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe-D3YJ7VXffpGMQbIUts3OOnNyNotNo0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479124155805-h17nt9f2c2n34sl7fiit4urrd9knht6c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479124155805:android:cd66e3fcf5dd8b323e5374",
+        "android_client_info": {
+          "package_name": "com.thvfuturistai.jewellery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479124155805-h17nt9f2c2n34sl7fiit4urrd9knht6c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe-D3YJ7VXffpGMQbIUts3OOnNyNotNo0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479124155805-h17nt9f2c2n34sl7fiit4urrd9knht6c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
