@@ -62,8 +62,8 @@ class _DiamondScreenState extends State<DiamondScreen> {
     ['Stones', 'Plain'],
     ['Stones', 'Plain'],
     ['Stones', 'Plain'],
-    ['Gents', 'Ladies'],
-    ['Gents', 'Ladies'],
+    ['Ladies','Gents'],
+    ['Ladies','Gents'],
     ['Short Length', 'Long Length'],
     ['DD Balls Chains'],
     ['Stones', 'Plain'],
@@ -190,6 +190,7 @@ class _DiamondScreenState extends State<DiamondScreen> {
                           title: titles[index],
                           categories: categoriesForTitles[index],
                           mainFolder: mainFolder,
+
                         ),
                       ),
                     );

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jewellery/Login_Screens/signin_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -80,21 +81,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 
-  void _nextPage() {
-    setState(() {
-      if (currentIndex < 2) {
-        currentIndex++;
-        _pageController.nextPage(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeIn,
-        );
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => LoginScreen()),
-        );
-      }
-    });
+  void _nextPage() async {
+    if (currentIndex < 2) {
+      currentIndex++;
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    } else {
+      // Clear SharedPreferences data before navigating to LoginScreen
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('userPhoneNumber');
+      await prefs.remove('Admin');
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => LoginScreen()),
+      );
+    }
   }
 
   List<Widget> _buildIndicator() {

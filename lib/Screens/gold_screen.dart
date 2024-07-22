@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:jewellery/Screens/common_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jewellery/Screens/SearchResultScreen.dart';
 
 class GoldScreen extends StatefulWidget {
   const GoldScreen({Key? key}) : super(key: key);
@@ -60,8 +61,8 @@ class _GoldScreenState extends State<GoldScreen> {
     ['Stones', 'Plain'],
     ['Stones', 'Plain'],
     ['Stones', 'Plain'],
-    ['Gents', 'Ladies'],
-    ['Gents', 'Ladies'],
+    ['Ladies','Gents'],
+    ['Ladies','Gents'],
     ['Short Length', 'Long Length'],
     ['DD Balls Chains'],
     ['Stones', 'Plain'],

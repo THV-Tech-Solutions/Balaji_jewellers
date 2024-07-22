@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jewellery/Screens/profile.dart';
+import 'package:jewellery/Screens/SearchResultScreen.dart';
+import 'package:logger/logger.dart';
 import 'package:photo_view/photo_view.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -23,6 +25,7 @@ class _SearchScreenState extends State<SearchScreen> {
       FirebaseFirestore.instance.collection('Search');
 
   final FocusNode _searchFocusNode = FocusNode();
+  Logger logger =  Logger();
 
   @override
   void initState() {
@@ -167,8 +170,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   padding: const EdgeInsets.all(3),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKfHVThC6NDvAo7W_aBedFmduYaNv6oXl-5T0lykgFHRoznpF85SfTb5c17nw9LqJVY94&usqp=CAU',
+                    child: Image.asset(
+                      'assets/images/profileIcon.jpeg',
                       width: MediaQuery.of(context).size.width *
                           0.08, // Adjust this value as needed
                       height: MediaQuery.of(context).size.width *
@@ -242,7 +245,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     final imageName = doc['ImageName'].toString().toLowerCase();
                     return imageName.contains(input);
                   }).toList();
-
+                  // logger.e('filteredDocs : $filteredDocs');
                   if (filteredDocs.isEmpty) {
                     return Center(
                       child: Text('No results found'),
@@ -256,6 +259,24 @@ class _SearchScreenState extends State<SearchScreen> {
                       return ListTile(
                         title: Text(doc['ImageName']),
                         onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SearchResultScreen(
+                                title: doc['title'],
+                                categories: doc['catagory'],
+                                mainFolder: doc['mainFolder'],
+                                mainImageUrl: doc['imageUrl'],
+                              ),
+                            ),
+                          );
+
+                          print(doc['mainFolder']);
+                          print(doc['title']);
+                          print(doc['catagory']);
+                          print(doc['imageUrl']);
+                        },
+                        onLongPress: () {
                           _showImagePopup(context, doc['imageUrl'], doc['id'],
                               doc['weight'].toString());
                         },

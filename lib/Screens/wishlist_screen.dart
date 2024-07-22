@@ -1,24 +1,29 @@
 //whishlistScreen
 import 'package:flutter/foundation.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jewellery/Login_Screens/user_check.dart';
 import 'package:logger/logger.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:io';
 import 'package:share/share.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:cupertino_icons/cupertino_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WishlistScreen extends StatefulWidget {
+  final String userPhoneNumber;
+  final String userName;
+
+  const WishlistScreen({
+    Key? key,
+    required this.userPhoneNumber,
+    required this.userName,
+  }) : super(key: key);
+
   @override
   _WishlistScreenState createState() => _WishlistScreenState();
 }
@@ -36,42 +41,27 @@ class _WishlistScreenState extends State<WishlistScreen> {
   Map<String, dynamic> imageUrlCache = {};
   List<DocumentReference> imageUrls = [];
   List<SelectedItem> selectedItems = [];
-  String? userPhoneNumber;
-  String? userName;
-  String wishlistUserCollectionDocName = '';
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    getUserDataFromSharedPreferences();
+    _loadImagesForCategory();
+    print('wishlist ${widget.userPhoneNumber}');
   }
-
-  Future<void> getUserDataFromSharedPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userPhoneNumber = prefs.getString('userPhoneNumber');
-      userName = prefs.getString('userName');
-      print("$userPhoneNumber");
-    });
-
-    if (userName!.isNotEmpty && userPhoneNumber!.isNotEmpty) {
-      wishlistUserCollectionDocName = "${userName}_$userPhoneNumber";
-      print(wishlistUserCollectionDocName);
-      _loadImagesForCategory();
-    }
-  }
+  
 
   Stream<QuerySnapshot> getWishlistImagesStream() {
     return FirebaseFirestore.instance
         .collection('Wishlist')
-        .doc(wishlistUserCollectionDocName)
+        .doc(widget.userPhoneNumber)
         .collection('Wishlist')
         .snapshots(); // Listen to changes in the collection
   }
 
   void _loadImagesForCategory() {
     final stream = getWishlistImagesStream();
-
+    print('wishlist ${widget.userPhoneNumber}');
     stream.listen((QuerySnapshot querySnapshot) {
       // This code will be executed whenever there's a change in the Firestore collection.
       final List<DocumentReference> refs = querySnapshot.docs
@@ -158,8 +148,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
       }
 
       if (imageFiles.isNotEmpty) {
-        Share.shareFiles(imageFiles,
-            text: 'Sharing ${selectedImages.length} images');
+        Share.shareFiles(imageFiles);
       } else {
         // Handle the case when no images could be downloaded.
         print('No images to share.');
@@ -193,7 +182,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
       imageFiles.add(filePath);
     }
 
-    Share.shareFiles(imageFiles, text: 'Sharing ${imageUrls.length} images');
+    Share.shareFiles(imageFiles);
   }
 
   Future<void> toggleWishlist(imageUrl, id, weight) async {
@@ -201,7 +190,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
       final firestore = FirebaseFirestore.instance;
       final collection = firestore
           .collection('Wishlist')
-          .doc('${userName}_$userPhoneNumber')
+          .doc(widget.userPhoneNumber)
           .collection('Wishlist');
 
       final existingDoc = await collection
@@ -230,28 +219,135 @@ class _WishlistScreenState extends State<WishlistScreen> {
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         backgroundColor: Colors.grey[300],
-        title: Center(
-          child: Text(
-            "Wishlist",
-            style: GoogleFonts.rowdies(
-              textStyle: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+        title: Text(
+          "Wishlist",
+          style: GoogleFonts.rowdies(
+            textStyle: const TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
+        centerTitle: true,
+        actions: [
+          if (isSelectionMode) ...[
+            IconButton(
+              onPressed: () async {
+                setState(() {
+                  isLoading = true;
+                });
+                _shareSelectedImages();
+              },
+              icon: const Icon(
+                Icons.share,
+                color: Colors.blue,
+                size: 30,
+              ),
+            ),
+          ],
+        ],
         elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            Center(
+              child: Visibility(
+                visible: isLoading,
+                child: SpinKitCircle(
+                  size: 120,
+                  itemBuilder: (context, index) {
+                    final colors = [Colors.orangeAccent, Colors.black];
+                    final color = colors[index % colors.length];
+
+                    return DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: color,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
             Expanded(
-              child: buildGridView(imageUrls),
+              child: imageUrls.isEmpty
+                  ? const Center(
+                      // Show a message when there are no images in the wishlist
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Your wishlist is empty!',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'To add images to your wishlist, press the',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.favorite,
+                                size: 30,
+                                color: Colors.red,
+                              ),
+                              Text(
+                                ' icon on your favorite images.',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  : buildGridView(imageUrls), // Display images
+            ),
+            const SizedBox(
+              height: 50,
             ),
           ],
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 70),
+        child: FloatingActionButton(
+          backgroundColor: Colors.white,
+          onPressed: () {
+            final whatsappLink =
+                'https://wa.me/919247879511?text=Hi%2C%20Balaji%20Jewellers%2C%20I%20am%20${widget.userName}%20and%20interested%20in%20your%20catalogue';
+            launch(whatsappLink);
+          },
+          child: Container(
+            width: 80.0, // Adjust the width of the rectangular container
+            height: 56.0, // Adjust the height of the rectangular container
+            padding: EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                  11.0), // Adjust the border radius as needed
+              color: Colors.green,
+            ),
+            child: Image.asset(
+              "assets/images/wa.jpg", // Replace with the path to your asset
+              width: 66.0, // Adjust the width of the image
+              height: 42.0, // Adjust the height of the image
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
       ),
     );

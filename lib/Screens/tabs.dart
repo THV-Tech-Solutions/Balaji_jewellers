@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jewellery/Screens/home_screen.dart';
 import 'package:jewellery/Screens/wishlist_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TabsScreen extends StatefulWidget {
   @override
@@ -12,6 +13,18 @@ class _TabsScreenState extends State<TabsScreen>
     with SingleTickerProviderStateMixin {
   var currentIndex = 0;
   late AnimationController _controller;
+  String userPhoneNumber = '';
+  String userName = '';
+  String wishlistUserCollectionDocName = '';
+
+  Future<void> getUserDataFromSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userPhoneNumber = prefs.getString('userPhoneNumber')!;
+      userName = prefs.getString('userName')!;
+      print("$userPhoneNumber $userName");
+    });
+  }
 
   static const List<IconData> listOfIcons = [
     Icons.home_max_outlined,
@@ -26,6 +39,7 @@ class _TabsScreenState extends State<TabsScreen>
   @override
   void initState() {
     super.initState();
+    getUserDataFromSharedPreferences();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -52,7 +66,10 @@ class _TabsScreenState extends State<TabsScreen>
             index: currentIndex,
             children: [
               HomeScreen(), // Displayed when currentIndex is 0
-              WishlistScreen(), // Displayed when currentIndex is 1
+              WishlistScreen(
+                userPhoneNumber: userPhoneNumber,
+                userName: userName,
+              ), // Displayed when currentIndex is 1
             ],
           ),
           Positioned(
@@ -66,7 +83,7 @@ class _TabsScreenState extends State<TabsScreen>
               child: Container(
                 height: displayWidth * 0.155,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 41, 37, 37),
+                  color: Colors.grey[400],
                   borderRadius: BorderRadius.circular(50),
                   border: Border.all(
                     color: Colors.orange,

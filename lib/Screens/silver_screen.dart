@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:jewellery/Screens/common_screen.dart';
+import 'package:jewellery/Screens/SearchResultScreen.dart';
 
 class SilverScreen extends StatefulWidget {
   const SilverScreen({Key? key}) : super(key: key);

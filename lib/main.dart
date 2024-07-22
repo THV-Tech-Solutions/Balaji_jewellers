@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:jewellery/Login_Screens/welcome_screen.dart';
 import 'package:jewellery/Login_Screens/user_check.dart';
+import 'package:jewellery/Login_Screens/welcome_screen.dart';
 import 'package:jewellery/Screens/tabs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -127,7 +127,7 @@ class _CommonScreenState extends State<CommonScreen>
         print("FINISH ");
       });
     } catch (e) {
-      logger.e('Error fetching images', error: e);
+      logger.e('Error fetching images', error:e);
     }
   }
 
@@ -1393,7 +1393,7 @@ class _CommonScreenState extends State<CommonScreen>
   Future<Map<String, dynamic>> _getImageUrlFromReference(
       DocumentReference reference) async {
     final String refPath = reference.path;
-
+ 
     // Check if the image URL is already cached
     if (imageUrlCache.containsKey(refPath)) {
       return imageUrlCache[refPath];

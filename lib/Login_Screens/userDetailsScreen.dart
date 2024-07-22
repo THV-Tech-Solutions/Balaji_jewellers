@@ -1,7 +1,9 @@
 // UserDetailsScreen
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:jewellery/Screens/tabs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,11 +22,17 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
   TextEditingController _userEmailCtrl = TextEditingController();
   TextEditingController _userCityCtrl = TextEditingController();
   bool isLoading = false;
+  String tempName = '';
+  bool isCity = false;
+  bool isfullName = false;
 
   //checking wether the user exist or not
   Future<void> saveUserDataToFirestoreAndSharedPreferences() async {
     try {
       final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      String? pushNotificationToken =
+          await FirebaseMessaging.instance.getToken();
+      print(pushNotificationToken);
 
       await firestore.collection('users').add({
         'userPhoneNumber': widget.userPhoneNumber_,
@@ -32,6 +40,7 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
         'userEmail': _userEmailCtrl.text,
         'userCity': _userCityCtrl.text,
         'Admin': '',
+        'notificationtoken': pushNotificationToken,
         'TimeStamp': Timestamp.now(),
       });
 
@@ -164,8 +173,62 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
                           setState(() {
                             isLoading = true; // Set loading to true
                           });
-                          await saveUserDataToFirestoreAndSharedPreferences();
-                          Get.offAll(TabsScreen());
+                          if (_userNameCtrl.text.isNotEmpty &&
+                              _userCityCtrl.text.isNotEmpty) {
+                            await saveUserDataToFirestoreAndSharedPreferences();
+                            Get.offAll(TabsScreen());
+                          } else if (_userNameCtrl.text.isNotEmpty &&
+                              _userCityCtrl.text.isEmpty) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            Fluttertoast.showToast(
+                              msg: "Please enter City name!",
+                              toastLength: Toast
+                                  .LENGTH_SHORT, // Duration for the toast message
+                              gravity: ToastGravity
+                                  .BOTTOM, // Position of the toast message
+                              backgroundColor:
+                                  Colors.red, // Background color of the toast
+                              textColor:
+                                  Colors.white, // Text color of the toast
+                              fontSize: 16.0, // Font size of the toast text
+                            );
+                          } else if (_userNameCtrl.text.isEmpty &&
+                              _userCityCtrl.text.isNotEmpty) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            Fluttertoast.showToast(
+                              msg: "Please enter Full Name!",
+                              toastLength: Toast
+                                  .LENGTH_SHORT, // Duration for the toast message
+                              gravity: ToastGravity
+                                  .BOTTOM, // Position of the toast message
+                              backgroundColor:
+                                  Colors.red, // Background color of the toast
+                              textColor:
+                                  Colors.white, // Text color of the toast
+                              fontSize: 16.0, // Font size of the toast text
+                            );
+                          } else if (_userNameCtrl.text.isEmpty &&
+                              _userCityCtrl.text.isEmpty) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            Fluttertoast.showToast(
+                              msg: "Please enter Full name and City name!",
+                              toastLength: Toast
+                                  .LENGTH_SHORT, // Duration for the toast message
+                              gravity: ToastGravity
+                                  .BOTTOM, // Position of the toast message
+                              backgroundColor:
+                                  Colors.red, // Background color of the toast
+                              textColor:
+                                  Colors.white, // Text color of the toast
+                              fontSize: 16.0, // Font size of the toast text
+                            );
+                          }
                         },
                       ),
 

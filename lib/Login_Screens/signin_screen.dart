@@ -3,7 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:jewellery/HelperFunctions/Toast.dart';
 import 'package:jewellery/Login_Screens/userDetailsScreen.dart';
 import 'package:jewellery/Screens/tabs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -76,14 +78,17 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
     } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
       print('Error fetching user data: $e');
+      ToastMessage.toast_("Error : ${e.toString()}");
     }
   }
 
   Future<void> loginWithPhone() async {
     String PhoneNumber = formatPhoneNumber(_phoneNumberCtrl.text);
     print(PhoneNumber);
-    // userPhoneNumber = _phoneNumberCtrl.text;
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: PhoneNumber,
@@ -93,8 +98,13 @@ class _LoginScreenState extends State<LoginScreen> {
           // using the auto-retrieval method.
         },
         verificationFailed: (FirebaseAuthException authException) {
+          setState(() {
+            isLoading = false;
+          });
           print('Phone verification failed. Code: ${authException.code}');
           // Handle the error, e.g., show an error message to the user.
+          ToastMessage.toast_(
+              "Phone verification failed. Code: ${authException.code}");
         },
         codeSent: (String verificationId, [int? forceResendingToken]) {
           // verifyOTP(verificationId);
@@ -113,11 +123,11 @@ class _LoginScreenState extends State<LoginScreen> {
         },
       );
     } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
       print('Error sending OTP: $e');
-      Get.showSnackbar(GetBar(
-        message: e.toString(),
-        duration: Duration(seconds: 2),
-      ));
+      ToastMessage.toast_(e.toString());
     }
   }
 
@@ -139,31 +149,26 @@ class _LoginScreenState extends State<LoginScreen> {
           // ignore: use_build_context_synchronously
           await checkUserExistOrNot(PhoneNumber);
         } else {
-          print('Error verifying OTP');
-          Get.showSnackbar(GetBar(
-            message: 'Incorrect OTP',
-            duration: Duration(seconds: 2),
-          ));
           setState(() {
             isLoading = false;
           });
+          print('Error verifying OTP');
+          ToastMessage.toast_("InCorrect OTP!");
         }
       } else {
         setState(() {
           isLoading = false;
         });
         print("Sending OTP failed");
-        Get.showSnackbar(GetBar(
-          message: "Sending OTP failed, Retry after some time",
-          duration: Duration(seconds: 2),
-        ));
+        ToastMessage.toast_(
+            "Oops!. Sending the OTP failed. Please try after some time.");
       }
     } catch (e) {
       print('Error verifying OTP: $e');
-      Get.showSnackbar(GetBar(
-        message: e.toString(),
-        duration: Duration(seconds: 2),
-      ));
+      ToastMessage.toast_("Error verifying OTP: ${e.toString()}");
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -301,11 +306,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       ),
                                 onPressed: () {
-                                  setState(() {
-                                    isLoading = true; // Set loading to true
-                                  });
-                                  verifyOTP(_otpCtrl.text);
-                                  FocusScope.of(context).unfocus();
+                                  if (_otpCtrl.text.length == 6) {
+                                    setState(() {
+                                      isLoading = true; // Set loading to true
+                                    });
+                                    verifyOTP(_otpCtrl.text);
+                                    FocusScope.of(context).unfocus();
+                                  } else {
+                                    Fluttertoast.showToast(
+                                      msg:
+                                          "You entered ${_otpCtrl.text.length} digits of OTP only; please enter 6 digits of OTP.",
+                                      toastLength: Toast
+                                          .LENGTH_SHORT, // Duration for the toast message
+                                      gravity: ToastGravity
+                                          .BOTTOM, // Position of the toast message
+                                      backgroundColor: Colors
+                                          .red, // Background color of the toast
+                                      textColor: Colors
+                                          .white, // Text color of the toast
+                                      fontSize:
+                                          16.0, // Font size of the toast text
+                                    );
+                                  }
                                 },
                               ),
                             ],
