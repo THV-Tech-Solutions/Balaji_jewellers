@@ -13,11 +13,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyBe-D3YJ7VXffpGMQbIUts3OOnNyNotNo0",
-      appId: "1:479124155805:android:cd66e3fcf5dd8b323e5374",
-      messagingSenderId: "479124155805",
-      projectId: "jewelleryapp-9e127",
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyBaUYdu2peLV-PwOpCgRT8mUY89yO4Gm1c",
+      appId: "1:59654702050:android:8635d6e850a283fa37afbb",
+      messagingSenderId: "59654702050",
+      projectId: "balaji-jewellers-d4735",
     ),
   );
   SharedPreferences prefs = await SharedPreferences.getInstance();

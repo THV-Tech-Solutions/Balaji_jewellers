@@ -1,66 +1,45 @@
 {
   "project_info": {
-    "project_number": "479124155805",
-    "firebase_url": "https://jewelleryapp-9e127-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "jewelleryapp-9e127",
-    "storage_bucket": "jewelleryapp-9e127.appspot.com"
+    "project_number": "59654702050",
+    "project_id": "balaji-jewellers-d4735",
+    "storage_bucket": "balaji-jewellers-d4735.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:479124155805:android:b6c00e2a209ed6fa3e5374",
+        "mobilesdk_app_id": "1:59654702050:android:7a2f1869085dd82b37afbb",
         "android_client_info": {
           "package_name": "com.example.jewellery"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "479124155805-h17nt9f2c2n34sl7fiit4urrd9knht6c.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBe-D3YJ7VXffpGMQbIUts3OOnNyNotNo0"
+          "current_key": "AIzaSyBaUYdu2peLV-PwOpCgRT8mUY89yO4Gm1c"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "479124155805-h17nt9f2c2n34sl7fiit4urrd9knht6c.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:479124155805:android:cd66e3fcf5dd8b323e5374",
+        "mobilesdk_app_id": "1:59654702050:android:8635d6e850a283fa37afbb",
         "android_client_info": {
           "package_name": "com.thvfuturistai.jewellery"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "479124155805-h17nt9f2c2n34sl7fiit4urrd9knht6c.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBe-D3YJ7VXffpGMQbIUts3OOnNyNotNo0"
+          "current_key": "AIzaSyBaUYdu2peLV-PwOpCgRT8mUY89yO4Gm1c"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "479124155805-h17nt9f2c2n34sl7fiit4urrd9knht6c.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
