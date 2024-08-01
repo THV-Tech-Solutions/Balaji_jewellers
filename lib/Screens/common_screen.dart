@@ -67,6 +67,7 @@ class _CommonScreenState extends State<CommonScreen>
   String? userName;
   bool isAdmin = false;
   String? isMove = '';
+  int catagoryImagescount=0;
 
   @override
   void initState() {
@@ -79,6 +80,10 @@ class _CommonScreenState extends State<CommonScreen>
     );
     tabController.addListener(_handleTabChange); // Listen to tab changes
     getUserDataFromSharedPreferences();
+    // var Height = MediaQuery.of(context).size.height - 100;
+    // var Width = MediaQuery.of(context).size.width - 100;
+    // print("height : $Height");
+    // print("width : $Width");
   }
 
   Future<void> getUserDataFromSharedPreferences() async {
@@ -127,7 +132,7 @@ class _CommonScreenState extends State<CommonScreen>
         print("FINISH ");
       });
     } catch (e) {
-      logger.e('Error fetching images', error:e);
+      logger.e('Error fetching images', error: e);
     }
   }
 
@@ -719,7 +724,7 @@ class _CommonScreenState extends State<CommonScreen>
     return DefaultTabController(
       length: widget.categories.length,
       child: Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         appBar: AppBar(
           leading: BackButton(
             color: Colors.black,
@@ -994,79 +999,120 @@ class _CommonScreenState extends State<CommonScreen>
           ],
           elevation: 0,
         ),
-        body: Stack(
-          alignment: Alignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 14),
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    child: TabBar(
-                      controller: tabController,
-                      indicator: BoxDecoration(
-                        color: Colors.orangeAccent,
+        body: Container(
+          decoration:const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                const Color.fromARGB(255, 0, 0, 0),
+                Color.fromARGB(255, 101, 70, 1)
+              ], // Black to Gold gradient
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 14),
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(25.0),
                       ),
-                      labelColor: Colors.white,
-                      unselectedLabelColor: Colors.black,
-                      tabs: widget.categories.map((category) {
-                        return FutureBuilder<int>(
-                          future: _countImagesInCategory(category),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Tab(text: "$category Loading...");
-                            } else if (snapshot.hasError) {
-                              return Tab(text: "$category Error");
-                            } else {
-                              final count = snapshot.data ?? 10;
-                              return Tab(text: "$category ${count.toString()}");
-                            }
-                          },
-                        );
-                      }).toList(),
+                      child: TabBar(
+                        controller: tabController,
+                        indicator: BoxDecoration(
+                          color: Colors.orangeAccent,
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        labelColor: Colors.white,
+                        unselectedLabelColor: Colors.black,
+                        tabs: widget.categories.map((category) {
+                          return FutureBuilder<int>(
+                            future: _countImagesInCategory(category),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Tab(text: "$category Loading...");
+                              } else if (snapshot.hasError) {
+                                return Tab(text: "$category Error");
+                              } else {
+                                catagoryImagescount = snapshot.data ?? 10;
+                                if(catagoryImagescount ==0) {
+                                  catagoryImagescount+= 6;
+                                } 
+                                print("catagoryImagescount : $catagoryImagescount");
+                                return Tab(
+                                    text: "$category ${catagoryImagescount.toString()}");
+                              }
+                            },
+                          );
+                        }).toList(),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      controller: tabController,
-                      children: widget.categories.map((category) {
-                        final imageUrls = imageUrlsByCategory[category] ?? [];
-                        return buildGridView(
-                            imageUrls); // Return the result of buildGridView
-                      }).toList(), // Convert the mapped results to a list
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: TabBarView(
+                        controller: tabController,
+                        children: widget.categories.map((category) {
+                          final imageUrls = imageUrlsByCategory[category] ?? [];
+                          return imageUrls.isEmpty ? const Center(
+                      // Show a message when there are no images in the wishlist
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'No images found!',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Admin please add images to this catagory',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ) : buildGridView(
+                              imageUrls); // Return the result of buildGridView
+                        }).toList(), // Convert the mapped results to a list
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Visibility(
-              visible: isLoading,
-              child: SpinKitCircle(
-                size: 120,
-                itemBuilder: (context, index) {
-                  final colors = [Colors.orangeAccent, Colors.black];
-                  final color = colors[index % colors.length];
+              Visibility(
+                visible: isLoading,
+                child: SpinKitCircle(
+                  size: 120,
+                  itemBuilder: (context, index) {
+                    final colors = [Colors.orangeAccent, Colors.black];
+                    final color = colors[index % colors.length];
 
-                  return DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: color,
-                    ),
-                  );
-                },
+                    return DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: color,
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         //image upload button start
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -1180,6 +1226,7 @@ class _CommonScreenState extends State<CommonScreen>
                 // padding: EdgeInsets.all(10.0),
                 // margin: EdgeInsets.all(10.0),
                 child: Card(
+                  color: Color.fromARGB(115, 0, 0, 0),
                   elevation: 4,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16.0),
@@ -1219,7 +1266,7 @@ class _CommonScreenState extends State<CommonScreen>
                           Stack(
                             children: [
                               Container(
-                                height: 190,
+                                height: 180,
                                 width: 190,
                                 child: ClipRRect(
                                   borderRadius: const BorderRadius.only(
@@ -1232,7 +1279,8 @@ class _CommonScreenState extends State<CommonScreen>
                                     placeholder: (context, url) =>
                                         Shimmer.fromColors(
                                       baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
+                                      highlightColor:
+                                          const Color.fromARGB(255, 0, 0, 0)!,
                                       child: Container(
                                         width: double.infinity,
                                         height: double.infinity,
@@ -1266,6 +1314,7 @@ class _CommonScreenState extends State<CommonScreen>
                                 Text(
                                   "Weight : $weight",
                                   style: const TextStyle(
+                                    color: Color.fromARGB(173, 255, 255, 255),
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -1277,7 +1326,8 @@ class _CommonScreenState extends State<CommonScreen>
                                       'Id : $id',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        color: Colors.black,
+                                        color:
+                                            Color.fromARGB(173, 255, 255, 255),
                                       ),
                                     ),
                                     IconButton(
@@ -1292,7 +1342,8 @@ class _CommonScreenState extends State<CommonScreen>
                                         size: 30,
                                         color: isInWish
                                             ? Colors.red
-                                            : Colors.black,
+                                            : const Color.fromARGB(
+                                                255, 255, 255, 255),
                                       ),
                                     ),
                                   ],
@@ -1393,7 +1444,7 @@ class _CommonScreenState extends State<CommonScreen>
   Future<Map<String, dynamic>> _getImageUrlFromReference(
       DocumentReference reference) async {
     final String refPath = reference.path;
- 
+
     // Check if the image URL is already cached
     if (imageUrlCache.containsKey(refPath)) {
       return imageUrlCache[refPath];
@@ -1451,3 +1502,4 @@ class SelectedItem {
 
   SelectedItem(this.imageUrls, {this.isSelected = false});
 }
+

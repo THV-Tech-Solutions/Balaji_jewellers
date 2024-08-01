@@ -5,7 +5,6 @@
 import 'package:flutter/material.dart';
 import 'package:jewellery/Screens/common_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jewellery/Screens/SearchResultScreen.dart';
 
 class GoldScreen extends StatefulWidget {
   const GoldScreen({Key? key}) : super(key: key);
@@ -61,8 +60,8 @@ class _GoldScreenState extends State<GoldScreen> {
     ['Stones', 'Plain'],
     ['Stones', 'Plain'],
     ['Stones', 'Plain'],
-    ['Ladies','Gents'],
-    ['Ladies','Gents'],
+    ['Gents', 'Ladies'],
+    ['Gents', 'Ladies'],
     ['Short Length', 'Long Length'],
     ['DD Balls Chains'],
     ['Stones', 'Plain'],
@@ -106,9 +105,10 @@ class _GoldScreenState extends State<GoldScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300], // Change to grey[300]
+      // Change to grey[300]
       appBar: AppBar(
-        backgroundColor: Colors.grey[300], // Change to grey[300]
+        backgroundColor:
+            const Color.fromARGB(255, 0, 0, 0), // Change to grey[300]
         elevation: 0,
         title: Center(
           child: Text(
@@ -116,7 +116,7 @@ class _GoldScreenState extends State<GoldScreen> {
             style: GoogleFonts.rowdies(
               // Use your desired Google Font, e.g., 'lobster'
               textStyle: TextStyle(
-                color: Colors.black,
+                color: const Color.fromARGB(255, 255, 255, 255),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -124,7 +124,7 @@ class _GoldScreenState extends State<GoldScreen> {
           ),
         ),
         leading: BackButton(
-          color: Colors.black,
+          color: const Color.fromARGB(255, 255, 255, 255),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -135,7 +135,7 @@ class _GoldScreenState extends State<GoldScreen> {
             child: IconButton(
               icon: Icon(
                 Icons.search,
-                color: Colors.black,
+                color: const Color.fromARGB(255, 255, 255, 255),
                 size: 30,
               ),
               onPressed: () {
@@ -157,95 +157,111 @@ class _GoldScreenState extends State<GoldScreen> {
           ),
         ],
       ),
-      body: ListView.separated(
-        controller: _scrollController,
-        itemCount: filteredTitles.length,
-        separatorBuilder: (context, index) => SizedBox(height: 10),
-        itemBuilder: (context, index) {
-          final category = filteredTitles[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                side: BorderSide(color: Colors.orangeAccent, width: 1.0),
-              ),
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedCategory = titles[index];
-                    isCategorySelected = true;
-                    Future.delayed(Duration(milliseconds: 500), () {
-                      setState(() {
-                        isCategorySelected = false;
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              const Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 58, 40, 0)
+            ], // Black to Gold gradient
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: ListView.separated(
+          controller: _scrollController,
+          itemCount: filteredTitles.length,
+          separatorBuilder: (context, index) => SizedBox(height: 10),
+          itemBuilder: (context, index) {
+            final category = filteredTitles[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Card(
+                color: Color.fromARGB(
+                    255, 0, 0, 0), // Set card background color to black
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                  side: BorderSide(color: Colors.orangeAccent, width: 1.0),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      selectedCategory = titles[index];
+                      isCategorySelected = true;
+                      Future.delayed(Duration(milliseconds: 500), () {
+                        setState(() {
+                          isCategorySelected = false;
+                        });
                       });
-                    });
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CommonScreen(
-                          title: titles[index],
-                          categories: categoriesForTitles[index],
-                          mainFolder: mainFolder,
-                        ),
-                      ),
-                    );
-                  });
-                },
-                borderRadius: BorderRadius.circular(16.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 60,
-                        height: 60,
-                        margin: const EdgeInsets.all(7.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/Gold${index + 1}.png'),
-                            fit: BoxFit.contain,
-                          ),
-                          border: Border.all(
-                            color: Colors.black26,
-                            width: 1.0,
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CommonScreen(
+                            title: titles[index],
+                            categories: categoriesForTitles[index],
+                            mainFolder: mainFolder,
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              titles[index],
-                              style: GoogleFonts.vollkorn(
-                                textStyle: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                      );
+                    });
+                  },
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          margin: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(16.0),
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  'assets/images/Gold${index + 1}.png'),
+                              fit: BoxFit.contain,
+                            ),
+                            border: Border.all(
+                              color: const Color.fromARGB(66, 255, 255, 255),
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                titles[index],
+                                style: GoogleFonts.vollkorn(
+                                  textStyle: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors
+                                        .white, // Change text color to white
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      const Icon(
-                        Icons.double_arrow,
-                        color: Colors.orangeAccent,
-                      ),
-                      const SizedBox(width: 10),
-                    ],
+                        const Icon(
+                          Icons.double_arrow,
+                          color: Colors.orangeAccent,
+                        ),
+                        const SizedBox(width: 10),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

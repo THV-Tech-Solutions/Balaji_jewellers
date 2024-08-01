@@ -3,6 +3,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -170,14 +171,15 @@ class _SearchScreenState extends State<SearchScreen> {
                   padding: const EdgeInsets.all(3),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      'assets/images/profileIcon.jpeg',
-                      width: MediaQuery.of(context).size.width *
-                          0.08, // Adjust this value as needed
-                      height: MediaQuery.of(context).size.width *
-                          0.08, // Adjust this value as needed
-                      fit: BoxFit.cover,
-                    ),
+                    // child: Image.asset(
+                    //   'assets/images/profileIcon.jpeg',
+                    //   width: MediaQuery.of(context).size.width *
+                    //       0.08, // Adjust this value as needed
+                    //   height: MediaQuery.of(context).size.width *
+                    //       0.08, // Adjust this value as needed
+                    //   fit: BoxFit.cover,
+                    // ),
+                    child: const Icon(FontAwesomeIcons.user)
                   ),
                 ),
               ),

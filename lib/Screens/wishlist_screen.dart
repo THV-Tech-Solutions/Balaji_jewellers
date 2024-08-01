@@ -51,13 +51,18 @@ class _WishlistScreenState extends State<WishlistScreen> {
   }
   
 
-  Stream<QuerySnapshot> getWishlistImagesStream() {
-    return FirebaseFirestore.instance
-        .collection('Wishlist')
-        .doc(widget.userPhoneNumber)
-        .collection('Wishlist')
-        .snapshots(); // Listen to changes in the collection
+Stream<QuerySnapshot> getWishlistImagesStream() {
+  if (widget.userPhoneNumber == null || widget.userPhoneNumber.isEmpty) {
+    throw AssertionError('userPhoneNumber cannot be null or empty');
   }
+
+  return FirebaseFirestore.instance
+      .collection('Wishlist')
+      .doc(widget.userPhoneNumber)
+      .collection('Wishlist')
+      .snapshots(); // Listen to changes in the collection
+}
+
 
   void _loadImagesForCategory() {
     final stream = getWishlistImagesStream();
