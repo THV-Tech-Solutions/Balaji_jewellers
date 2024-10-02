@@ -7,7 +7,7 @@ import 'package:jewellery/Screens/common_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class GoldScreen extends StatefulWidget {
-  const GoldScreen({Key? key}) : super(key: key);
+  const GoldScreen({super.key});
 
   @override
   _GoldScreenState createState() => _GoldScreenState();
@@ -96,7 +96,7 @@ class _GoldScreenState extends State<GoldScreen> {
       // Scroll to the selected category
       _scrollController.animateTo(
         index.toDouble() * 95.0,
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
     }
@@ -115,8 +115,8 @@ class _GoldScreenState extends State<GoldScreen> {
             mainFolder,
             style: GoogleFonts.rowdies(
               // Use your desired Google Font, e.g., 'lobster'
-              textStyle: TextStyle(
-                color: const Color.fromARGB(255, 255, 255, 255),
+              textStyle: const TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -133,9 +133,9 @@ class _GoldScreenState extends State<GoldScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
-                color: const Color.fromARGB(255, 255, 255, 255),
+                color: Color.fromARGB(255, 255, 255, 255),
                 size: 30,
               ),
               onPressed: () {
@@ -158,10 +158,10 @@ class _GoldScreenState extends State<GoldScreen> {
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              const Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 0, 0, 0),
               Color.fromARGB(255, 58, 40, 0)
             ], // Black to Gold gradient
             begin: Alignment.topLeft,
@@ -171,25 +171,26 @@ class _GoldScreenState extends State<GoldScreen> {
         child: ListView.separated(
           controller: _scrollController,
           itemCount: filteredTitles.length,
-          separatorBuilder: (context, index) => SizedBox(height: 10),
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemBuilder: (context, index) {
             final category = filteredTitles[index];
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Card(
-                color: Color.fromARGB(
+                color: const Color.fromARGB(
                     255, 0, 0, 0), // Set card background color to black
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16.0),
-                  side: BorderSide(color: Colors.orangeAccent, width: 1.0),
+                  side:
+                      const BorderSide(color: Colors.orangeAccent, width: 1.0),
                 ),
                 child: InkWell(
                   onTap: () {
                     setState(() {
                       selectedCategory = titles[index];
                       isCategorySelected = true;
-                      Future.delayed(Duration(milliseconds: 500), () {
+                      Future.delayed(const Duration(milliseconds: 500), () {
                         setState(() {
                           isCategorySelected = false;
                         });
@@ -238,7 +239,7 @@ class _GoldScreenState extends State<GoldScreen> {
                               Text(
                                 titles[index],
                                 style: GoogleFonts.vollkorn(
-                                  textStyle: TextStyle(
+                                  textStyle: const TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
                                     color: Colors
@@ -279,7 +280,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
         onPressed: () {
           Navigator.of(context).pop();
         },
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
       ),
     ];
   }
@@ -290,7 +291,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
       onPressed: () {
         close(context, '');
       },
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
     );
   }
 

@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jewellery/Screens/profile.dart';
 import 'package:jewellery/Screens/wishlist_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserListView extends StatefulWidget {
+  const UserListView({super.key});
+
   @override
   _UserListViewState createState() => _UserListViewState();
 }
@@ -107,7 +104,7 @@ class _UserListViewState extends State<UserListView> {
           children: [
             Padding(
               padding: const EdgeInsets.all(0),
-              child: Container(
+              child: SizedBox(
                 width: 50,
                 height: 50,
                 child: Image.asset(
@@ -127,7 +124,7 @@ class _UserListViewState extends State<UserListView> {
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1,
                 shadows: [
-                  Shadow(
+                  const Shadow(
                     offset: Offset(3, 3),
                     blurRadius: 7,
                     color: Colors.black,
@@ -135,9 +132,9 @@ class _UserListViewState extends State<UserListView> {
                 ],
                 decoration: TextDecoration.none,
                 foreground: Paint()
-                  ..shader = LinearGradient(
+                  ..shader = const LinearGradient(
                     colors: [Colors.orange, Colors.orange],
-                  ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 30.0)),
+                  ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 30.0)),
               ),
             ),
             SizedBox(
@@ -158,13 +155,13 @@ class _UserListViewState extends State<UserListView> {
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
 
             if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              return Center(
+              return const Center(
                 child: Text('No users found.'),
               );
             }
@@ -206,57 +203,57 @@ class _UserListViewState extends State<UserListView> {
                   },
                   child: Container(
                     child: Card(
-                      margin: EdgeInsets.all(8.0),
+                      margin: const EdgeInsets.all(8.0),
                       elevation: 2.0,
                       child: Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Name: $userName',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
                             ),
-                            SizedBox(height: 8.0),
+                            const SizedBox(height: 8.0),
                             Text(
                               'Email: $userEmail',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.black,
                               ),
                             ),
-                            SizedBox(height: 4.0),
+                            const SizedBox(height: 4.0),
                             Text(
                               'Phone: $userPhoneNumber',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.black,
                               ),
                             ),
-                            SizedBox(height: 4.0),
+                            const SizedBox(height: 4.0),
                             Text(
                               'City: $userCity',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.black,
                               ),
                             ),
-                            SizedBox(height: 4.0),
+                            const SizedBox(height: 4.0),
                             Text(
                               'Admin: $admin_',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.black,
                               ),
                             ),
-                            SizedBox(height: 4.0),
+                            const SizedBox(height: 4.0),
                             Text(
                               'Timestamp: $formattedTimestamp',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.black,
                               ),

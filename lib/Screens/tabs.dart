@@ -5,6 +5,8 @@ import 'package:jewellery/Screens/wishlist_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TabsScreen extends StatefulWidget {
+  const TabsScreen({super.key});
+
   @override
   _TabsScreenState createState() => _TabsScreenState();
 }
@@ -65,7 +67,7 @@ class _TabsScreenState extends State<TabsScreen>
           IndexedStack(
             index: currentIndex,
             children: [
-              HomeScreen(), // Displayed when currentIndex is 0
+              const HomeScreen(), // Displayed when currentIndex is 0
               WishlistScreen(
                 userPhoneNumber: userPhoneNumber,
                 userName: userName,
@@ -83,7 +85,7 @@ class _TabsScreenState extends State<TabsScreen>
               child: Container(
                 height: displayWidth * 0.155,
                 decoration: BoxDecoration(
-                  color: Colors.grey[400],
+                  color: const Color.fromARGB(255, 8, 8, 8),
                   borderRadius: BorderRadius.circular(50),
                   border: Border.all(
                     color: Colors.orange,
@@ -165,7 +167,7 @@ class _TabsScreenState extends State<TabsScreen>
                       child: Text(
                         isSelected ? listOfStrings[index] : '',
                         style: const TextStyle(
-                          color: Colors.black,
+                          color: Color.fromARGB(255, 255, 255, 255),
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                         ),
@@ -190,7 +192,7 @@ class _TabsScreenState extends State<TabsScreen>
                             size: displayWidth * .076,
                             color: isSelected
                                 ? Colors.orangeAccent
-                                : Colors.grey[700],
+                                : const Color.fromARGB(255, 255, 255, 255),
                           ),
                         );
                       },

@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jewellery/Screens/common_screen.dart';
 
 class GemStonesScreen extends StatefulWidget {
-  const GemStonesScreen({Key? key}) : super(key: key);
+  const GemStonesScreen({super.key});
 
   @override
   State<GemStonesScreen> createState() => _GemStonesScreenState();
@@ -91,7 +91,7 @@ class _GemStonesScreenState extends State<GemStonesScreen> {
       // Scroll to the selected category
       _scrollController.animateTo(
         index.toDouble() * 95.0, // Adjust for your itemHeight
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
     }
@@ -113,7 +113,7 @@ class _GemStonesScreenState extends State<GemStonesScreen> {
           child: Text(
             mainFolder,
             style: GoogleFonts.rowdies(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 color: Colors.black,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -157,7 +157,7 @@ class _GemStonesScreenState extends State<GemStonesScreen> {
         children: [
           // CUSTOM TABBAR
           Container(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             width: double.infinity,
             height: 60,
             child: ListView.builder(
@@ -171,7 +171,7 @@ class _GemStonesScreenState extends State<GemStonesScreen> {
                     });
                   },
                   child: Container(
-                    margin: EdgeInsets.all(3),
+                    margin: const EdgeInsets.all(3),
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     decoration: BoxDecoration(
                       color: currentTabIndex == index
@@ -221,7 +221,7 @@ class _GemStonesScreenState extends State<GemStonesScreen> {
                         elevation: 5,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
-                          side: BorderSide(color: Colors.red, width: 1.0),
+                          side: const BorderSide(color: Colors.red, width: 1.0),
                         ),
                         child: InkWell(
                           onTap: () {
@@ -317,7 +317,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
         onPressed: () {
           Navigator.of(context).pop();
         },
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
       ),
     ];
   }
@@ -328,7 +328,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
       onPressed: () {
         close(context, '');
       },
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
     );
   }
 

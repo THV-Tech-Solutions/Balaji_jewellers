@@ -8,7 +8,7 @@ import 'package:jewellery/Screens/common_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DiamondScreen extends StatefulWidget {
-  const DiamondScreen({Key? key}) : super(key: key);
+  const DiamondScreen({super.key});
 
   @override
   _DiamondScreenState createState() => _DiamondScreenState();
@@ -98,7 +98,7 @@ class _DiamondScreenState extends State<DiamondScreen> {
       // Scroll to the selected category
       _scrollController.animateTo(
         index * itemHeight,
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
     }
@@ -116,7 +116,7 @@ class _DiamondScreenState extends State<DiamondScreen> {
             mainFolder,
             style: GoogleFonts.rowdies(
               // Use your desired Google Font, e.g., 'lobster'
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 color: Colors.black,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -134,7 +134,7 @@ class _DiamondScreenState extends State<DiamondScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
                 color: Colors.black,
                 size: 30,
@@ -161,7 +161,7 @@ class _DiamondScreenState extends State<DiamondScreen> {
       body: ListView.separated(
         controller: _scrollController,
         itemCount: filteredTitles.length,
-        separatorBuilder: (context, index) => SizedBox(height: 10),
+        separatorBuilder: (context, index) => const SizedBox(height: 10),
         itemBuilder: (context, index) {
           final category = filteredTitles[index];
           return Padding(
@@ -170,14 +170,14 @@ class _DiamondScreenState extends State<DiamondScreen> {
               elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.0),
-                side: BorderSide(color: Colors.orangeAccent, width: 1.0),
+                side: const BorderSide(color: Colors.orangeAccent, width: 1.0),
               ),
               child: InkWell(
                 onTap: () {
                   setState(() {
                     selectedCategory = titles[index];
                     isCategorySelected = true;
-                    Future.delayed(Duration(milliseconds: 500), () {
+                    Future.delayed(const Duration(milliseconds: 500), () {
                       setState(() {
                         isCategorySelected = false;
                       });
@@ -226,7 +226,7 @@ class _DiamondScreenState extends State<DiamondScreen> {
                             Text(
                               titles[index],
                               style: GoogleFonts.vollkorn(
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -265,7 +265,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
         onPressed: () {
           Navigator.of(context).pop();
         },
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
       ),
     ];
   }
@@ -276,7 +276,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
       onPressed: () {
         close(context, '');
       },
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
     );
   }
 

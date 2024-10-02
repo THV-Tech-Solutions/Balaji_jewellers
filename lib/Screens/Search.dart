@@ -3,9 +3,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jewellery/Screens/profile.dart';
 import 'package:jewellery/Screens/SearchResultScreen.dart';
@@ -13,7 +13,7 @@ import 'package:logger/logger.dart';
 import 'package:photo_view/photo_view.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -26,7 +26,7 @@ class _SearchScreenState extends State<SearchScreen> {
       FirebaseFirestore.instance.collection('Search');
 
   final FocusNode _searchFocusNode = FocusNode();
-  Logger logger =  Logger();
+  Logger logger = Logger();
 
   @override
   void initState() {
@@ -108,9 +108,9 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       appBar: AppBar(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: const Color.fromARGB(65, 0, 0, 0),
         leadingWidth: 0,
         automaticallyImplyLeading: false,
         elevation: 0,
@@ -120,7 +120,7 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(0),
-              child: Container(
+              child: SizedBox(
                 width: 50,
                 height: 50,
                 child: Image.asset(
@@ -131,16 +131,16 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.045,
+              width: MediaQuery.of(context).size.width * 0.046,
             ),
             Text(
               "SriBalajiJewelers",
               style: GoogleFonts.mateSc(
-                fontSize: 25,
+                fontSize: 27,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1,
                 shadows: [
-                  Shadow(
+                  const Shadow(
                     offset: Offset(3, 3),
                     blurRadius: 7,
                     color: Colors.black,
@@ -148,14 +148,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
                 decoration: TextDecoration.none,
                 foreground: Paint()
-                  ..shader = LinearGradient(
+                  ..shader = const LinearGradient(
                     colors: [Colors.orange, Colors.orange],
-                  ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 30.0)),
+                  ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 30.0)),
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.045,
-            ),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.046),
             Card(
               elevation: 5,
               shape: RoundedRectangleBorder(
@@ -165,21 +163,39 @@ class _SearchScreenState extends State<SearchScreen> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(20),
                 onTap: () {
-                  Get.to(ProfileScreen());
+                  Get.to(const ProfileScreen());
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(3),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    // child: Image.asset(
-                    //   'assets/images/profileIcon.jpeg',
-                    //   width: MediaQuery.of(context).size.width *
-                    //       0.08, // Adjust this value as needed
-                    //   height: MediaQuery.of(context).size.width *
-                    //       0.08, // Adjust this value as needed
-                    //   fit: BoxFit.cover,
-                    // ),
-                    child: const Icon(FontAwesomeIcons.user)
+                    child: Image.network(
+                      'https://cdn-icons-png.freepik.com/512/10302/10302971.png', // Replace with your network image URL
+                      width: MediaQuery.of(context).size.width *
+                          0.08, // Adjust as needed
+                      height: MediaQuery.of(context).size.width *
+                          0.08, // Adjust as needed
+                      fit: BoxFit.cover,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    (loadingProgress.expectedTotalBytes ?? 1)
+                                : null,
+                          ),
+                        );
+                      },
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return const Icon(Icons
+                            .error); // Show error icon if the image fails to load
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -187,108 +203,127 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Material(
-              borderRadius: BorderRadius.circular(30),
-              elevation: 2,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 1.0,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(139, 96, 67, 6)
+            ], // Black to Gold gradient
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+          child: Column(
+            children: [
+              Material(
+                borderRadius: BorderRadius.circular(30),
+                elevation: 2,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      width: 1.0,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          onChanged: (val) {
+                            setState(() {
+                              // Convert user input to lowercase
+                              input = val.toLowerCase();
+                            });
+                          },
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                          decoration: const InputDecoration(
+                            hintText: "Search for Ornaments",
+                            hintStyle: TextStyle(
+                              color: Color.fromARGB(255, 218, 218, 218),
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(left: 20),
+                          ),
+                          focusNode: _searchFocusNode,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        onChanged: (val) {
-                          setState(() {
-                            // Convert user input to lowercase
-                            input = val.toLowerCase();
-                          });
-                        },
-                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                        decoration: InputDecoration(
-                          hintText: "Search for Ornaments",
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(left: 20),
-                        ),
-                        focusNode: _searchFocusNode,
-                      ),
-                    ),
-                  ],
+              ),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: searchCollection.snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error: ${snapshot.error}'),
+                      );
+                    }
+
+                    // Filter the documents based on the user input
+                    final filteredDocs = snapshot.data!.docs.where((doc) {
+                      final imageName =
+                          doc['ImageName'].toString().toLowerCase();
+                      return imageName.contains(input);
+                    }).toList();
+                    // logger.e('filteredDocs : $filteredDocs');
+                    if (filteredDocs.isEmpty) {
+                      return const Center(
+                        child: Text('No results found'),
+                      );
+                    }
+
+                    return ListView.builder(
+                      itemCount: filteredDocs.length,
+                      itemBuilder: (context, index) {
+                        final doc = filteredDocs[index];
+                        return ListTile(
+                          title: Text(doc['ImageName']),
+                          textColor: Colors.white,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SearchResultScreen(
+                                  title: doc['title'],
+                                  categories: doc['catagory'],
+                                  mainFolder: doc['mainFolder'],
+                                  mainImageUrl: doc['imageUrl'],
+                                ),
+                              ),
+                            );
+
+                            print(doc['mainFolder']);
+                            print(doc['title']);
+                            print(doc['catagory']);
+                            print(doc['imageUrl']);
+                          },
+                          onLongPress: () {
+                            _showImagePopup(context, doc['imageUrl'], doc['id'],
+                                doc['weight'].toString());
+                          },
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
-            ),
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: searchCollection.snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
-                  }
-
-                  // Filter the documents based on the user input
-                  final filteredDocs = snapshot.data!.docs.where((doc) {
-                    final imageName = doc['ImageName'].toString().toLowerCase();
-                    return imageName.contains(input);
-                  }).toList();
-                  // logger.e('filteredDocs : $filteredDocs');
-                  if (filteredDocs.isEmpty) {
-                    return Center(
-                      child: Text('No results found'),
-                    );
-                  }
-
-                  return ListView.builder(
-                    itemCount: filteredDocs.length,
-                    itemBuilder: (context, index) {
-                      final doc = filteredDocs[index];
-                      return ListTile(
-                        title: Text(doc['ImageName']),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SearchResultScreen(
-                                title: doc['title'],
-                                categories: doc['catagory'],
-                                mainFolder: doc['mainFolder'],
-                                mainImageUrl: doc['imageUrl'],
-                              ),
-                            ),
-                          );
-
-                          print(doc['mainFolder']);
-                          print(doc['title']);
-                          print(doc['catagory']);
-                          print(doc['imageUrl']);
-                        },
-                        onLongPress: () {
-                          _showImagePopup(context, doc['imageUrl'], doc['id'],
-                              doc['weight'].toString());
-                        },
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

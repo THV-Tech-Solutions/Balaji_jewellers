@@ -15,6 +15,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:async'; // Import this for Timer
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -37,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _startAutoScroll() {
-    _timer = Timer.periodic(Duration(seconds: 2), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
       if (_scrollController.hasClients) {
         final double maxScrollExtent =
             _scrollController.position.maxScrollExtent;
@@ -48,13 +50,13 @@ class _HomeScreenState extends State<HomeScreen> {
         if (nextScroll >= maxScrollExtent) {
           _scrollController.animateTo(
             0.0,
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             curve: Curves.easeInOut,
           );
         } else {
           _scrollController.animateTo(
             nextScroll,
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             curve: Curves.easeInOut,
           );
         }
@@ -63,15 +65,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List<String> images = [
-    'assets/images/canvascrollable.png',
-    'assets/images/canvascrollable2.png',
-    'assets/images/image 2.jpg',
-    'assets/images/poster2.jpg',
-    'assets/images/poster3.png',
-    'assets/images/jj.jpg',
-    'assets/images/poster6.jpg',
-    'assets/images/poster7.jpg',
-    'assets/images/poster8.jpg',
+    'assets/images/scrollsecond1.png',
+    // 'assets/images/scrollsecond.png',
+    'assets/images/scrollsecond3.png',
+    'assets/images/scrollsecond4.png',
+    'assets/images/scrollsecond5.png',
+    'assets/images/scrollsecond6.png',
+    // 'assets/images/canvascrollable.png',
+    // 'assets/images/canvascrollable2.png',
+    // 'assets/images/image 2.jpg',
+    // 'assets/images/poster2.jpg',
+    // 'assets/images/poster3.png',
+    // 'assets/images/jj.jpg',
+    // 'assets/images/poster6.jpg',
+    // 'assets/images/poster7.jpg',
+    // 'assets/images/poster8.jpg',
   ];
 
   final FocusNode _focusNode = FocusNode();
@@ -81,14 +89,14 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Under Development"),
-          content: Text("This feature is currently under development."),
+          title: const Text("Under Development"),
+          content: const Text("This feature is currently under development."),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         );
@@ -100,9 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.grey[300],
-      backgroundColor: Color.fromARGB(255, 0, 0, 0),
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(65, 0, 0, 0),
+        backgroundColor: const Color.fromARGB(65, 0, 0, 0),
         leadingWidth: 0,
         automaticallyImplyLeading: false,
         elevation: 0,
@@ -112,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(0),
-              child: Container(
+              child: SizedBox(
                 width: 50,
                 height: 50,
                 child: Image.asset(
@@ -132,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1,
                 shadows: [
-                  Shadow(
+                  const Shadow(
                     offset: Offset(3, 3),
                     blurRadius: 7,
                     color: Colors.black,
@@ -140,9 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
                 decoration: TextDecoration.none,
                 foreground: Paint()
-                  ..shader = LinearGradient(
+                  ..shader = const LinearGradient(
                     colors: [Colors.orange, Colors.orange],
-                  ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 30.0)),
+                  ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 30.0)),
               ),
             ),
             SizedBox(width: MediaQuery.of(context).size.width * 0.046),
@@ -155,21 +163,40 @@ class _HomeScreenState extends State<HomeScreen> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(20),
                 onTap: () {
-                  Get.to(ProfileScreen());
+                  Get.to(const ProfileScreen());
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(3),
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      // child: Image.asset(
-                      //   'assets/images/profileIcon.jpeg',
-                      //   width: MediaQuery.of(context).size.width *
-                      //       0.08, // Adjust this value as needed
-                      //   height: MediaQuery.of(context).size.width *
-                      //       0.08, // Adjust this value as needed
-                      //   fit: BoxFit.cover,
-                      // ),
-                      child: const Icon(FontAwesomeIcons.user)),
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      'https://cdn-icons-png.freepik.com/512/10302/10302971.png', // Replace with your network image URL
+                      width: MediaQuery.of(context).size.width *
+                          0.08, // Adjust as needed
+                      height: MediaQuery.of(context).size.width *
+                          0.08, // Adjust as needed
+                      fit: BoxFit.cover,
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    (loadingProgress.expectedTotalBytes ?? 1)
+                                : null,
+                          ),
+                        );
+                      },
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return const Icon(Icons
+                            .error); // Show error icon if the image fails to load
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -179,10 +206,10 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color.fromARGB(255, 0, 0, 0),
+                  Color.fromARGB(255, 0, 0, 0),
                   Color.fromARGB(139, 96, 67, 6)
                 ], // Black to Gold gradient
                 begin: Alignment.topLeft,
@@ -196,12 +223,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Material(
                         borderRadius: BorderRadius.circular(30),
                         elevation: 2,
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
                             color: const Color.fromARGB(255, 0, 0, 0),
                             borderRadius: BorderRadius.circular(20),
@@ -216,13 +243,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: TextField(
                                   onTap: () {
                                     _focusNode.unfocus();
-                                    Get.to(SearchScreen());
+                                    Get.to(const SearchScreen());
                                   },
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 16,
                                       color:
                                           Color.fromARGB(255, 255, 255, 255)),
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     hintText: "Search for Ornaments",
                                     hintStyle: TextStyle(
                                       color: Color.fromARGB(255, 218, 218,
@@ -238,14 +265,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onPressed: () {
                                   _showUnderDevelopmentMessage();
                                 },
-                                icon: Icon(Icons.mic),
-                                color: Color.fromARGB(221, 255, 255, 255),
+                                icon: const Icon(Icons.mic),
+                                color: const Color.fromARGB(221, 255, 255, 255),
                               ),
                               IconButton(
                                 onPressed: () {
                                   _showUnderDevelopmentMessage();
                                 },
-                                icon: Icon(Icons.settings),
+                                icon: const Icon(Icons.settings),
                                 color: const Color.fromARGB(221, 255, 255, 255),
                               ),
                             ],
@@ -253,9 +280,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 25),
+                    const SizedBox(height: 25),
                     CustomCarouselSlider(images: images),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Padding(
                       padding: const EdgeInsets.all(
                           16.0), // You can adjust the padding value as needed
@@ -265,41 +292,41 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisSpacing: 13,
                         childAspectRatio: (180 / 260),
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         children: <Widget>[
                           CategoryCard(
                             image: "assets/images/rk1.6.png",
                             title: "Gold",
                             onTap: () {
-                              Get.to(GoldScreen());
+                              Get.to(const GoldScreen());
                             },
                           ),
                           CategoryCard(
                             image: "assets/images/rk1.4.png",
                             title: "Silver",
                             onTap: () {
-                              Get.to(SilverScreen());
+                              Get.to(const SilverScreen());
                             },
                           ),
                           CategoryCard(
                             image: "assets/images/diamon.png",
                             title: "Diamond",
                             onTap: () {
-                              Get.to(DiamondScreen());
+                              Get.to(const DiamondScreen());
                             },
                           ),
                           CategoryCard(
                             image: "assets/images/ty.jpg",
                             title: "Gemstone",
                             onTap: () {
-                              Get.to(GemStonesScreen());
+                              Get.to(const GemStonesScreen());
                             },
                           ),
                           CategoryCard(
                             image: "assets/images/RoseGoldHome.png",
                             title: "RoseGold",
                             onTap: () {
-                              Get.to(RoseGoldScreen());
+                              Get.to(const RoseGoldScreen());
                             },
                           ),
                           // ExtraCategoryCard(
@@ -320,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             image: "assets/images/ty.jpg",
                             title: "Gemstone",
                             onTap: () {
-                              Get.to(GemStonesScreen());
+                              Get.to(const GemStonesScreen());
                             },
                           ),
                         ],
@@ -328,8 +355,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Container(
                       height: 100,
-                      margin: EdgeInsets.only(top: 40),
-                      decoration: BoxDecoration(
+                      margin: const EdgeInsets.only(top: 40),
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/images/canva2.png'),
                           fit: BoxFit
@@ -339,37 +366,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Container(
                       height: 190,
-                      margin: EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 30),
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         controller: _scrollController,
                         children: <Widget>[
                           Image.asset('assets/images/canvascroll1.png'),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Image.asset('assets/images/canvascroll2.png'),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Image.asset('assets/images/canvascroll3.png'),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Image.asset('assets/images/canvascroll4.png'),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Image.asset('assets/images/canvascroll5.png'),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Image.asset('assets/images/canvascroll6.png'),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Image.asset('assets/images/canvascroll7.png'),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Image.asset('assets/images/canvascroll8.png'),
@@ -378,9 +405,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Container(
                       height: 300,
-                      margin: EdgeInsets.only(
+                      margin: const EdgeInsets.only(
                           top: 50, left: 20, right: 20, bottom: 20),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/images/canva3.png'),
                           fit: BoxFit
@@ -391,48 +418,71 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Center(
-                          child: Text(
-                            'Quick Links',
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              letterSpacing: 1.5,
-                            ),
+                        const SizedBox(height: 15),
+                        Text(
+                          'Quick Links',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.orbitron(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 203, 203, 203),
+                            letterSpacing: 1.5,
                           ),
                         ),
-                        const SizedBox(height: 15),
+
+                        const SizedBox(height: 0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             QuickLinkContainer(
-                                assetBackgroundImagePath: "Gold1.png", catagory_: 'Stones', mainFolder_: 'Gold', title_: 'Ladies Rings',),
+                              assetBackgroundImagePath: "QuickLink1.jpeg",
+                              catagory_: 'Stones',
+                              mainFolder_: 'Gold',
+                              title_: 'Ladies Rings',
+                            ),
                             QuickLinkContainer(
-                                assetBackgroundImagePath: "Gold5.png", catagory_: 'Stones', mainFolder_: 'Gold', title_: 'Necklace',),
+                              assetBackgroundImagePath: "QuickLink2.jpg",
+                              catagory_: 'Stones',
+                              mainFolder_: 'Gold',
+                              title_: 'Necklace',
+                            ),
                           ],
                         ),
                         //silver
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            QuickLinkContainer(
-                                assetBackgroundImagePath:
-                                    "SilverArticles5.png", catagory_: 'Vodharani', mainFolder_: 'Silver', title_: 'Silver Articles',),
-                            QuickLinkContainer(
-                                assetBackgroundImagePath:
-                                    "SilverArticles1.png", catagory_: 'Plates', mainFolder_: 'Silver', title_: 'Silver Articles',),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     QuickLinkContainer(
+                        //       assetBackgroundImagePath: "QuickLink3.jpg",
+                        //       catagory_: 'Vodharani',
+                        //       mainFolder_: 'Silver',
+                        //       title_: 'Silver Articles',
+                        //     ),
+                        //     QuickLinkContainer(
+                        //       assetBackgroundImagePath: "QuickLink4.jpg",
+                        //       catagory_: 'Plates',
+                        //       mainFolder_: 'Silver',
+                        //       title_: 'Silver Articles',
+                        //     ),
+                        //   ],
+                        // ),
                         //silver end
                         //roseGold
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             QuickLinkContainer(
-                                assetBackgroundImagePath: "RoseGold5.png", catagory_: 'Stones', mainFolder_: 'RoseGold', title_: 'Harams',),
+                              assetBackgroundImagePath: "QuickLink11.webp",
+                              catagory_: 'Stones',
+                              mainFolder_: 'RoseGold',
+                              title_: 'Harams',
+                            ),
                             QuickLinkContainer(
-                                assetBackgroundImagePath: "rosegold1.png", catagory_: 'Stones', mainFolder_: 'RoseGold', title_: 'Ladies Rings',),
+                              assetBackgroundImagePath: "QuickLink7.jpg",
+                              catagory_: 'Stones',
+                              mainFolder_: 'RoseGold',
+                              title_: 'Ladies Rings',
+                            ),
                           ],
                         ),
                         //roseGold end
@@ -441,37 +491,45 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             QuickLinkContainer(
-                                assetBackgroundImagePath: "Diamond2.png", catagory_: 'Stones', mainFolder_: 'Diamond', title_: 'Ladies Rings',),
+                              assetBackgroundImagePath: "QuickLink8.jpg",
+                              catagory_: 'Stones',
+                              mainFolder_: 'Diamond',
+                              title_: 'Ladies Rings',
+                            ),
                             QuickLinkContainer(
-                                assetBackgroundImagePath: "Diamond3.png", catagory_: 'Stones', mainFolder_: 'Diamond', title_: 'Necklace',),
+                              assetBackgroundImagePath: "QuickLink9.jpg",
+                              catagory_: 'Stones',
+                              mainFolder_: 'Diamond',
+                              title_: 'Necklace',
+                            ),
                           ],
                         ),
                         //diamond end
                       ],
                     ),
                     Container(
-                      height: 180,
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(),
+                      height: 200,
+                      padding: const EdgeInsets.all(25.0),
+                      decoration: const BoxDecoration(),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
                             'About Us',
-                            style: TextStyle(
+                            style: GoogleFonts.orbitron(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               letterSpacing: 1.5,
                             ),
                           ),
-                          SizedBox(height: 15),
+                          const SizedBox(height: 5),
                           Text(
                             'Check out beautiful gold, silver, diamond, rose gold, and gemstone pur special style from our handpicked gold, silver, diamond, rose gold, and gemstone choices.',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
+                            style: GoogleFonts.cinzel(
+                              fontSize: 14,
                               color: Colors.white.withOpacity(0.8),
                               height: 1.5,
                             ),
@@ -481,27 +539,27 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Center(
                       child: Container(
-                        height: 180,
-                        padding: EdgeInsets.all(0.0),
+                        height: 130,
+                        padding: const EdgeInsets.all(0.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
                               'Contact Us',
-                              style: TextStyle(
+                              style: GoogleFonts.orbitron(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 letterSpacing: 1.5,
                               ),
                             ),
-                            SizedBox(height: 15),
+                            const SizedBox(height: 5),
                             Text(
-                              'Email: contact@example.com\nPhone: +1234567890\nAddress: 123 Main St, City',
+                              'Email: sribalajijewellers@gmail.com\nPhone: +91 9166226916\nAddress: Bangaram kotlu Bazaar, \nCity - Jaggayyapet',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 16,
+                              style: GoogleFonts.cinzel(
+                                fontSize: 14,
                                 color: Colors.white.withOpacity(0.8),
                                 height: 1.5,
                               ),
@@ -515,41 +573,99 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              // Launch your social media links here
+                          GestureDetector(
+                            onTap: () {
+                              // Launch your social media link here
                             },
-                            icon: Icon(
-                              Icons.facebook,
-                              size: 40,
-                              color: Colors.white,
+                            child: Material(
+                              elevation:
+                                  8, // Adds more elevation (shadow effect)
+                              shape: const CircleBorder(), // Keeps it circular
+                              color: const Color.fromARGB(255, 0, 0,
+                                  0), // Adds a background color like a button
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(
+                                    50), // To keep the ripple effect circular
+                                onTap: () {
+                                  // Handle tap
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(
+                                      8.0), // Adds padding around the logo to give button-like feel
+                                  child: CircleAvatar(
+                                    radius: 20, // Size of the circular button
+                                    backgroundImage: NetworkImage(
+                                      'https://i.pinimg.com/564x/a7/26/b7/a726b78996d835c9b913932ad2a67059.jpg', // Replace with logo URL
+                                    ),
+                                    backgroundColor: Colors.transparent,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              // Launch your social media links here
+                          GestureDetector(
+                            onTap: () {
+                              // Launch your social media link here
                             },
-                            icon: Icon(
-                              Icons.face,
-                              size: 40,
-                              color: Colors.white,
+                            child: Material(
+                              elevation:
+                                  8, // Adds more elevation (shadow effect)
+                              shape: const CircleBorder(),
+                              color: const Color.fromARGB(255, 0, 0,
+                                  0), // Adds a background color like a button
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(50),
+                                onTap: () {
+                                  // Handle tap
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(
+                                      8.0), // Adds padding around the logo
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundImage: NetworkImage(
+                                      'https://i.pinimg.com/736x/8f/8f/b4/8f8fb43ce828a22c91c0b59f55fb91b3.jpg', // Replace with logo URL
+                                    ),
+                                    backgroundColor: Colors.transparent,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              // Launch your social media links here
+                          GestureDetector(
+                            onTap: () {
+                              // Launch your social media link here
                             },
-                            icon: Icon(
-                              Icons.face,
-                              size: 40,
-                              color: Colors.white,
+                            child: Material(
+                              elevation:
+                                  8, // Adds more elevation (shadow effect)
+                              shape: const CircleBorder(),
+                              color: const Color.fromARGB(255, 0, 0,
+                                  0), // Adds a background color like a button
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(50),
+                                onTap: () {
+                                  // Handle tap
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(
+                                      8.0), // Adds padding around the logo
+                                  child: CircleAvatar(
+                                    radius: 20,
+                                    backgroundImage: NetworkImage(
+                                      'https://i.pinimg.com/736x/89/34/81/893481b49099773b537d198d284edbd2.jpg', // Replace with logo URL
+                                    ),
+                                    backgroundColor: Colors.transparent,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 50,
+                    const SizedBox(
+                      height: 55,
                     ),
                   ],
                 ),
@@ -558,7 +674,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Positioned(
             bottom: 80,
-            right: 16,
+            right: 10,
             child: Container(
               child: Column(
                 children: [
@@ -566,12 +682,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(50),
                     child: FloatingActionButton(
                       onPressed: () {
-                        final whatsappLink =
+                        const whatsappLink =
                             'https://wa.me/919247879511?text=Hi%20Balaji%20Jewellers';
                         launch(whatsappLink);
                       },
                       child: Image.network(
-                          'https://w7.pngwing.com/pngs/343/922/png-transparent-whatsapp-computer-icons-icon-design-whatsapp-trademark-logo-copyright.png'),
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSA0W1ZrYWrI28u4z8pNVEdsD-QrbfWPn9QTs1n5amNXYEtxsrYCmsSbfjG6FuW7ZfiOU&usqp=CAU'),
                     ),
                   ),
                   // SizedBox(height: 16),
@@ -598,7 +714,7 @@ class _HomeScreenState extends State<HomeScreen> {
 class CustomCarouselSlider extends StatefulWidget {
   final List<String> images;
 
-  CustomCarouselSlider({required this.images});
+  const CustomCarouselSlider({super.key, required this.images});
 
   @override
   _CustomCarouselSliderState createState() => _CustomCarouselSliderState();
@@ -619,7 +735,7 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
             aspectRatio: 4 / 3,
             autoPlayCurve: Curves.fastOutSlowIn,
             enableInfiniteScroll: true,
-            autoPlayAnimationDuration: Duration(milliseconds: 800),
+            autoPlayAnimationDuration: const Duration(milliseconds: 800),
             viewportFraction: 0.8,
             onPageChanged: (index, reason) {
               setState(() {
@@ -630,11 +746,11 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
           items: widget.images.map((item) {
             return Builder(
               builder: (BuildContext context) {
-                return Container(
+                return SizedBox(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.width * 0.75,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(0),
                     child: AspectRatio(
                       aspectRatio: 4 / 3,
                       child: Image.asset(
@@ -648,7 +764,7 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
             );
           }).toList(),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: widget.images.map((url) {
@@ -656,7 +772,7 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
             return Container(
               width: 8.0,
               height: 8.0,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
+              margin: const EdgeInsets.symmetric(horizontal: 5.0),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color:
@@ -675,7 +791,8 @@ class CategoryCard extends StatefulWidget {
   final String title;
   final VoidCallback onTap;
 
-  CategoryCard({
+  const CategoryCard({
+    super.key,
     required this.image,
     required this.title,
     required this.onTap,
@@ -695,7 +812,7 @@ class _CategoryCardState extends State<CategoryCard> {
         setState(() {
           isTapped = true;
         });
-        Future.delayed(Duration(milliseconds: 300), () {
+        Future.delayed(const Duration(milliseconds: 300), () {
           setState(() {
             isTapped = false;
           });
@@ -703,21 +820,22 @@ class _CategoryCardState extends State<CategoryCard> {
         });
       },
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
               color: isTapped
-                  ? Color.fromARGB(0, 96, 96, 96)
-                  : Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+                  ? const Color.fromARGB(0, 96, 96, 96)
+                  : const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
               spreadRadius: isTapped ? 0 : 0,
               blurRadius: isTapped ? 0 : 0,
-              offset: isTapped ? Offset(0, 0) : Offset(0, 3),
+              offset: isTapped ? const Offset(0, 0) : const Offset(0, 3),
             ),
           ],
-          color:
-              isTapped ? Colors.orangeAccent : Color.fromARGB(19, 145, 10, 10),
+          color: isTapped
+              ? Colors.orangeAccent
+              : const Color.fromARGB(19, 145, 10, 10),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
@@ -740,7 +858,7 @@ class _CategoryCardState extends State<CategoryCard> {
                     ],
                   ),
                   border: Border.all(
-                    color: Color.fromARGB(226, 255, 255,
+                    color: Color.fromARGB(255, 255, 255,
                         255), // Change this to your desired border color
                     width: 0, // Change this to your desired border width
                   ),
@@ -755,7 +873,7 @@ class _CategoryCardState extends State<CategoryCard> {
                     fontWeight: FontWeight.bold,
                     color: Colors.orangeAccent,
                     shadows: [
-                      Shadow(
+                      const Shadow(
                         offset: Offset(4, 4),
                         blurRadius: 3,
                         color: Colors.black,
@@ -778,7 +896,8 @@ class ExtraCategoryCard extends StatelessWidget {
   final VoidCallback onTapImage1;
   final VoidCallback onTapImage2;
 
-  ExtraCategoryCard({
+  const ExtraCategoryCard({
+    super.key,
     required this.image1,
     required this.image2,
     required this.onTapImage1,
@@ -799,14 +918,14 @@ class ExtraCategoryCard extends StatelessWidget {
               color: Colors.grey.withOpacity(0.01),
               spreadRadius: 2,
               blurRadius: 10,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               height: 64,
               child: Card(
                 elevation: 8,
@@ -830,7 +949,7 @@ class ExtraCategoryCard extends StatelessWidget {
               height: 8,
               color: Colors.grey[300],
             ),
-            Container(
+            SizedBox(
               height: 64,
               child: Card(
                 elevation: 8,
@@ -863,7 +982,8 @@ class QuickLinkContainer extends StatefulWidget {
   String mainFolder_;
   String catagory_;
   QuickLinkContainer(
-      {required this.assetBackgroundImagePath,
+      {super.key,
+      required this.assetBackgroundImagePath,
       required this.catagory_,
       required this.mainFolder_,
       required this.title_});
@@ -876,7 +996,7 @@ class _QuickLinkContainerState extends State<QuickLinkContainer> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -892,14 +1012,14 @@ class _QuickLinkContainerState extends State<QuickLinkContainer> {
         },
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
+            borderRadius: const BorderRadius.all(Radius.circular(0)),
             image: DecorationImage(
                 image: AssetImage(
                     'assets/images/${widget.assetBackgroundImagePath}'),
                 fit: BoxFit.cover),
             border: Border.all(
               color: Colors.white70,
-              width: 1.5,
+              width: 0,
             ),
             // gradient: const LinearGradient(
             //   begin: Alignment.topCenter,
@@ -909,8 +1029,8 @@ class _QuickLinkContainerState extends State<QuickLinkContainer> {
             // ),
             // color: widget.color_,
           ),
-          height: 200,
-          width: 150,
+          height: 160,
+          width: 160,
         ),
       ),
     );

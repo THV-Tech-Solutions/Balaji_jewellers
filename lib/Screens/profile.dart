@@ -9,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -56,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           'Profile',
           style: GoogleFonts.rowdies(
             // Use your desired Google Font, e.g., 'lobster'
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -73,12 +75,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         actions: [
           if (isAdmin) ...[
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 FontAwesomeIcons.solidImages,
                 color: Colors.red,
               ),
               onPressed: () {
-                Get.to(CommonScreen(
+                Get.to(const CommonScreen(
                   title: 'Home_Slider',
                   categories: ['AllImages'],
                   mainFolder: 'WelcomeImages',
@@ -86,12 +88,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 FontAwesomeIcons.userCheck,
                 color: Colors.red,
               ),
               onPressed: () {
-                Get.to(UserListView());
+                Get.to(const UserListView());
               },
             ),
           ],
@@ -104,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height * 0.45,
-              margin: EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
+              margin: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Colors.deepOrange.shade700, Colors.orange],
@@ -115,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.3),
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                     blurRadius: 12.0,
                   ),
                 ],
@@ -124,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: 2.0,
                 ),
               ),
-              padding: EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(15.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -144,21 +146,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.3),
-                              offset: Offset(0, 4),
+                              offset: const Offset(0, 4),
                               blurRadius: 8.0,
                             ),
                           ],
                         ),
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           backgroundImage: NetworkImage(
                               'https://st2.depositphotos.com/7573446/12066/v/450/depositphotos_120663986-stock-illustration-people-web-vector-icon.jpg'),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: Colors.black38,
                       borderRadius: BorderRadius.circular(20),
@@ -171,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 5,
                           blurRadius: 7,
-                          offset: Offset(0, 3),
+                          offset: const Offset(0, 3),
                         ),
                       ],
                     ),
@@ -179,7 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       userName ?? '',
                       style: GoogleFonts.dmSerifDisplay(
                         // Use Google Fonts, you can replace 'lobster' with any font from Google Fonts
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -189,9 +191,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       color:
                           Colors.grey[300], // Set your desired background color
@@ -207,14 +209,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               .withOpacity(0.3), // Optional: shadow color
                           spreadRadius: 2, // Optional: spread radius
                           blurRadius: 5, // Optional: blur radius
-                          offset: Offset(0, 3), // Optional: shadow offset
+                          offset: const Offset(0, 3), // Optional: shadow offset
                         ),
                       ],
                     ),
                     child: Center(
                       child: Text(
                         userPhoneNumber ?? '',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize:
                               16, // Adjust the font size for the phone number
                           color: Colors.black, // Text color
@@ -226,10 +228,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
                   Container(
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       color:
                           Colors.grey[300], // Set your desired background color
@@ -245,14 +247,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               .withOpacity(0.3), // Optional: shadow color
                           spreadRadius: 2, // Optional: spread radius
                           blurRadius: 5, // Optional: blur radius
-                          offset: Offset(0, 3), // Optional: shadow offset
+                          offset: const Offset(0, 3), // Optional: shadow offset
                         ),
                       ],
                     ),
                     child: Center(
                       child: Text(
                         userEmail ?? '',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize:
                               16, // Adjust the font size for the phone number
                           color: Colors.black, // Text color
@@ -264,10 +266,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
                   Container(
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       color:
                           Colors.grey[300], // Set your desired background color
@@ -283,14 +285,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               .withOpacity(0.3), // Optional: shadow color
                           spreadRadius: 2, // Optional: spread radius
                           blurRadius: 5, // Optional: blur radius
-                          offset: Offset(0, 3), // Optional: shadow offset
+                          offset: const Offset(0, 3), // Optional: shadow offset
                         ),
                       ],
                     ),
                     child: Center(
                       child: Text(
                         userCity ?? '',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize:
                               16, // Adjust the font size for the phone number
                           color: Colors.black, // Text color
@@ -316,19 +318,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             Card(
               elevation: 5, // Add elevation for a card-like appearance
-              margin: EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
+              margin: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
               child: ProfileMenuWidget(
                   title: 'Help Center', icon: Icons.help, onPress: () {}),
             ),
             Card(
               elevation: 5, // Add elevation for a card-like appearance
-              margin: EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
+              margin: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
               child: ProfileMenuWidget(
                   title: 'Refer', icon: Icons.person_add, onPress: () {}),
             ),
             Card(
               elevation: 5, // Add elevation for a card-like appearance
-              margin: EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
+              margin: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
               child: ProfileMenuWidget(
                 title: 'Developers',
                 icon: Icons.developer_mode,
@@ -360,7 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                             ),
                           ),
-                          body: DevelopersSection(),
+                          body: const DevelopersSection(),
                         );
                       },
                     ),
@@ -371,7 +373,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (isAdmin) ...[
               Card(
                 elevation: 5, // Add elevation for a card-like appearance
-                margin: EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
+                margin: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
                 child: ProfileMenuWidget(
                   title: 'Recycle Bin',
                   icon: FontAwesomeIcons.dumpster,
@@ -396,13 +398,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 class ProfileMenuWidget extends StatelessWidget {
   const ProfileMenuWidget({
-    Key? key,
+    super.key,
     required this.title,
     required this.icon,
     required this.onPress,
     this.endIcon = true,
     this.textColor,
-  }) : super(key: key);
+  });
 
   final String title;
   final IconData icon;
@@ -452,14 +454,16 @@ class ProfileMenuWidget extends StatelessWidget {
 }
 
 class DevelopersSection extends StatelessWidget {
+  const DevelopersSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         height: 400,
         width: 400,
-        margin: EdgeInsets.all(16.0),
-        padding: EdgeInsets.all(16.0),
+        margin: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           color: Colors.orangeAccent,
           border: Border.all(
@@ -468,7 +472,7 @@ class DevelopersSection extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Center(
+        child: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center, // Center vertically
             crossAxisAlignment:
@@ -498,7 +502,7 @@ class DeveloperInfo extends StatelessWidget {
   final String email;
   final String phone;
 
-  DeveloperInfo({
+  const DeveloperInfo({super.key, 
     required this.name,
     required this.email,
     required this.phone,
@@ -507,7 +511,7 @@ class DeveloperInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.black,
@@ -522,7 +526,7 @@ class DeveloperInfo extends StatelessWidget {
           children: [
             Text(
               'Name: $name',
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),

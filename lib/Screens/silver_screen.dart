@@ -4,12 +4,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:get/get.dart';
 import 'package:jewellery/Screens/common_screen.dart';
-import 'package:jewellery/Screens/SearchResultScreen.dart';
 
 class SilverScreen extends StatefulWidget {
-  const SilverScreen({Key? key}) : super(key: key);
+  const SilverScreen({super.key});
 
   @override
   State<SilverScreen> createState() => _SilverScreenState();
@@ -262,7 +260,7 @@ class _SilverScreenState extends State<SilverScreen> {
       // Scroll to the selected category
       _scrollController.animateTo(
         index.toDouble() * 95.0, // Adjust for your itemHeight
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
     }
@@ -284,7 +282,7 @@ class _SilverScreenState extends State<SilverScreen> {
           child: Text(
             mainFolder,
             style: GoogleFonts.rowdies(
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 color: Colors.black,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -328,7 +326,7 @@ class _SilverScreenState extends State<SilverScreen> {
         children: [
           // CUSTOM TABBAR
           Container(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             width: double.infinity,
             height: 60,
             child: ListView.builder(
@@ -342,7 +340,7 @@ class _SilverScreenState extends State<SilverScreen> {
                     });
                   },
                   child: Container(
-                    margin: EdgeInsets.all(3),
+                    margin: const EdgeInsets.all(3),
                     // padding: const EdgeInsets.symmetric(horizontal: 8),
                     padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width * 0.02),
@@ -395,7 +393,7 @@ class _SilverScreenState extends State<SilverScreen> {
                         elevation: 5,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
-                          side: BorderSide(color: Colors.black, width: 1.0),
+                          side: const BorderSide(color: Colors.black, width: 1.0),
                         ),
                         child: InkWell(
                           onTap: () {
@@ -488,7 +486,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
         onPressed: () {
           Navigator.of(context).pop();
         },
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
       ),
     ];
   }
@@ -499,7 +497,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
       onPressed: () {
         close(context, '');
       },
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
     );
   }
 

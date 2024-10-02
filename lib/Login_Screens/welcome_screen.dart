@@ -6,7 +6,7 @@ import 'package:jewellery/Login_Screens/signin_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({super.key});
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -63,15 +63,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 _nextPage();
               },
               child: Container(
-                child: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 24,
-                  color: Colors.white,
-                ),
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Constants.primaryColor,
+                ),
+                child: const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 24,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -96,7 +96,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => LoginScreen()),
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
       );
     }
   }
@@ -131,11 +131,11 @@ class createPage extends StatelessWidget {
   final String description;
 
   const createPage({
-    Key? key,
+    super.key,
     required this.image,
     required this.title,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +160,7 @@ class createPage extends StatelessWidget {
                   Shadow(
                     color: Colors.black.withOpacity(0.2),
                     blurRadius: 2,
-                    offset: Offset(2, 2),
+                    offset: const Offset(2, 2),
                   ),
                 ],
               ),
@@ -181,7 +181,7 @@ class createPage extends StatelessWidget {
                 Shadow(
                   color: Colors.black.withOpacity(0.1),
                   blurRadius: 2,
-                  offset: Offset(1, 1),
+                  offset: const Offset(1, 1),
                 ),
               ],
             ),

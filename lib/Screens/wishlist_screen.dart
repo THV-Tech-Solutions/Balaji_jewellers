@@ -1,5 +1,4 @@
 //whishlistScreen
-import 'package:flutter/foundation.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
@@ -19,10 +18,10 @@ class WishlistScreen extends StatefulWidget {
   final String userName;
 
   const WishlistScreen({
-    Key? key,
+    super.key,
     required this.userPhoneNumber,
     required this.userName,
-  }) : super(key: key);
+  });
 
   @override
   _WishlistScreenState createState() => _WishlistScreenState();
@@ -49,20 +48,18 @@ class _WishlistScreenState extends State<WishlistScreen> {
     _loadImagesForCategory();
     print('wishlist ${widget.userPhoneNumber}');
   }
-  
 
-Stream<QuerySnapshot> getWishlistImagesStream() {
-  if (widget.userPhoneNumber == null || widget.userPhoneNumber.isEmpty) {
-    throw AssertionError('userPhoneNumber cannot be null or empty');
+  Stream<QuerySnapshot> getWishlistImagesStream() {
+    if (widget.userPhoneNumber.isEmpty) {
+      throw AssertionError('userPhoneNumber cannot be null or empty');
+    }
+
+    return FirebaseFirestore.instance
+        .collection('Wishlist')
+        .doc(widget.userPhoneNumber)
+        .collection('Wishlist')
+        .snapshots(); // Listen to changes in the collection
   }
-
-  return FirebaseFirestore.instance
-      .collection('Wishlist')
-      .doc(widget.userPhoneNumber)
-      .collection('Wishlist')
-      .snapshots(); // Listen to changes in the collection
-}
-
 
   void _loadImagesForCategory() {
     final stream = getWishlistImagesStream();
@@ -221,14 +218,14 @@ Stream<QuerySnapshot> getWishlistImagesStream() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       appBar: AppBar(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         title: Text(
           "Wishlist",
           style: GoogleFonts.rowdies(
             textStyle: const TextStyle(
-              color: Colors.black,
+              color: Color.fromARGB(255, 255, 255, 255),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -254,106 +251,126 @@ Stream<QuerySnapshot> getWishlistImagesStream() {
         ],
         elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Center(
-              child: Visibility(
-                visible: isLoading,
-                child: SpinKitCircle(
-                  size: 120,
-                  itemBuilder: (context, index) {
-                    final colors = [Colors.orangeAccent, Colors.black];
-                    final color = colors[index % colors.length];
-
-                    return DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: color,
-                      ),
-                    );
-                  },
-                ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 0, 0, 0),
+                  Color.fromARGB(139, 96, 67, 6)
+                ], // Black to Gold gradient
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
-            Expanded(
-              child: imageUrls.isEmpty
-                  ? const Center(
-                      // Show a message when there are no images in the wishlist
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Your wishlist is empty!',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'To add images to your wishlist, press the',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Center(
+                    child: Visibility(
+                      visible: isLoading,
+                      child: SpinKitCircle(
+                        size: 120,
+                        itemBuilder: (context, index) {
+                          final colors = [Colors.orangeAccent, Colors.black];
+                          final color = colors[index % colors.length];
+
+                          return DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: color,
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.favorite,
-                                size: 30,
-                                color: Colors.red,
-                              ),
-                              Text(
-                                ' icon on your favorite images.',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                          );
+                        },
                       ),
-                    )
-                  : buildGridView(imageUrls), // Display images
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 70),
-        child: FloatingActionButton(
-          backgroundColor: Colors.white,
-          onPressed: () {
-            final whatsappLink =
-                'https://wa.me/919247879511?text=Hi%2C%20Balaji%20Jewellers%2C%20I%20am%20${widget.userName}%20and%20interested%20in%20your%20catalogue';
-            launch(whatsappLink);
-          },
-          child: Container(
-            width: 80.0, // Adjust the width of the rectangular container
-            height: 56.0, // Adjust the height of the rectangular container
-            padding: EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                  11.0), // Adjust the border radius as needed
-              color: Colors.green,
-            ),
-            child: Image.asset(
-              "assets/images/wa.jpg", // Replace with the path to your asset
-              width: 66.0, // Adjust the width of the image
-              height: 42.0, // Adjust the height of the image
-              fit: BoxFit.cover,
+                    ),
+                  ),
+                  Expanded(
+                    child: imageUrls.isEmpty
+                        ? const Center(
+                            // Show a message when there are no images in the wishlist
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Your wishlist is empty!',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  'To add images to your wishlist, press the',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.favorite,
+                                      size: 30,
+                                      color: Colors.red,
+                                    ),
+                                    Text(
+                                      ' icon on your favorite images.',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        : buildGridView(imageUrls), // Display images
+                  ),
+                  const SizedBox(
+                    height: 70,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
+          Positioned(
+            bottom: 80,
+            right: 10,
+            child: Container(
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        const whatsappLink =
+                            'https://wa.me/919247879511?text=Hi%20Balaji%20Jewellers';
+                        launch(whatsappLink);
+                      },
+                      child: Image.network(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSA0W1ZrYWrI28u4z8pNVEdsD-QrbfWPn9QTs1n5amNXYEtxsrYCmsSbfjG6FuW7ZfiOU&usqp=CAU'),
+                    ),
+                  ),
+                  // SizedBox(height: 16),
+                  // FloatingActionButton(
+                  //   onPressed: () {
+                  //     final facebookLink =
+                  //         'https://www.facebook.com/profile.php?id=100054242660344&mibextid=ZbWKwL';
+                  //     launch(facebookLink);
+                  //   },
+                  //   child: Image.asset("assets/images/fb.jpg"),
+                  // ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -393,6 +410,7 @@ Stream<QuerySnapshot> getWishlistImagesStream() {
               final isSelected = selectedImages.contains(imageUrl);
               return Container(
                 child: Card(
+                  color: Color.fromARGB(115, 0, 0, 0),
                   elevation: 4,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16.0),
@@ -422,15 +440,15 @@ Stream<QuerySnapshot> getWishlistImagesStream() {
                         }
                       });
                     },
-                    child: Container(
+                    child: SizedBox(
                       height: 20,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Stack(
                             children: [
-                              Container(
-                                height: 190,
+                              SizedBox(
+                                height: 185,
                                 width: 190,
                                 child: ClipRRect(
                                   borderRadius: const BorderRadius.only(
@@ -442,12 +460,15 @@ Stream<QuerySnapshot> getWishlistImagesStream() {
                                     fit: BoxFit.cover,
                                     placeholder: (context, url) =>
                                         Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
+                                      baseColor:
+                                          Color.fromARGB(255, 244, 244, 244)!,
+                                      highlightColor:
+                                          Color.fromARGB(255, 0, 0, 0)!,
                                       child: Container(
                                         width: double.infinity,
                                         height: double.infinity,
-                                        color: Colors.white,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                       ),
                                     ),
                                     errorWidget: (context, url, error) =>
@@ -478,6 +499,7 @@ Stream<QuerySnapshot> getWishlistImagesStream() {
                                   "Weight : $weight",
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w700,
+                                    color: Color.fromARGB(172, 255, 255, 255),
                                   ),
                                 ),
                                 Row(
@@ -488,7 +510,8 @@ Stream<QuerySnapshot> getWishlistImagesStream() {
                                       'Id : $id',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        color: Colors.black,
+                                        color:
+                                            Color.fromARGB(173, 255, 255, 255),
                                       ),
                                     ),
                                     IconButton(
@@ -496,7 +519,7 @@ Stream<QuerySnapshot> getWishlistImagesStream() {
                                         toggleWishlist(
                                             imageUrl, id, weight.toString());
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.favorite,
                                         size: 30,
                                         color: Colors.red,

@@ -18,22 +18,22 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _phoneNumberCtrl = TextEditingController();
-  TextEditingController _otpCtrl = TextEditingController();
+  final TextEditingController _phoneNumberCtrl = TextEditingController();
+  final TextEditingController _otpCtrl = TextEditingController();
   bool showOTPField = false; // Initially hide OTP field
   String _verificationId = '';
   bool isLoading = false;
   bool otpSent = false;
   //checking wether the user exist or not
-  Future<void> checkUserExistOrNot(String _userPhoneNumber) async {
-    print('phoneNumber inside existing user check $_userPhoneNumber');
+  Future<void> checkUserExistOrNot(String userPhoneNumber) async {
+    print('phoneNumber inside existing user check $userPhoneNumber');
     try {
       final CollectionReference usersCollection =
           FirebaseFirestore.instance.collection('users');
 
       // Query the 'users' collection for the provided phone number
       QuerySnapshot querySnapshot = await usersCollection
-          .where('userPhoneNumber', isEqualTo: _userPhoneNumber)
+          .where('userPhoneNumber', isEqualTo: userPhoneNumber)
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await prefs.setString('Admin', Admin);
 
         print('User data saved to SharedPreferences');
-        Get.offAll(TabsScreen());
+        Get.offAll(const TabsScreen());
         setState(() {
           isLoading = false;
         });
@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context,
           MaterialPageRoute(
             builder: (context) => userDetailsScreen(
-              userPhoneNumber_: _userPhoneNumber,
+              userPhoneNumber_: userPhoneNumber,
             ),
           ),
         );
@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: PhoneNumber,
-        timeout: Duration(seconds: 60),
+        timeout: const Duration(seconds: 60),
         verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {
           // This callback will be called when the verification is completed automatically
           // using the auto-retrieval method.
@@ -200,16 +200,16 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.grey[300],
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(25),
+            padding: const EdgeInsets.all(25),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 70),
+                const SizedBox(height: 70),
                 Container(
                   width: 150,
                   height: 150,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: AssetImage("assets/images/logo.png"),
@@ -217,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 Card(
                   elevation: 10,
                   shape: RoundedRectangleBorder(
@@ -225,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   color: Colors.white,
                   child: Padding(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -239,7 +239,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontFamily: 'Roboto',
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         if (!showOTPField) ...[
@@ -266,7 +266,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ],
-                        SizedBox(height: 25),
+                        const SizedBox(height: 25),
                         _buildTextFormField(
                           labelText: "Enter Phone Number",
                           prefixIcon: Icons.phone,
@@ -279,26 +279,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (otpSent) ...[
                           Column(
                             children: [
-                              SizedBox(height: 15),
+                              const SizedBox(height: 15),
                               _buildTextFormField(
                                 labelText: "OTP",
                                 prefixIcon: Icons.security,
                                 keyboardType: TextInputType.number,
                                 controller: _otpCtrl,
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.orangeAccent,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 50, vertical: 15),
                                 ),
                                 child: isLoading // Check the loading variable
-                                    ? CircularProgressIndicator() // Show loading indicator
-                                    : Text(
+                                    ? const CircularProgressIndicator() // Show loading indicator
+                                    : const Text(
                                         "Verify OTP",
                                         style: TextStyle(
                                           fontSize: 18,
@@ -336,19 +336,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           Column(
                             // Wrap the else block in a Column
                             children: [
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.orangeAccent,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 50, vertical: 15),
                                 ),
                                 child: isLoading // Check the loading variable
-                                    ? CircularProgressIndicator() // Show loading indicator
-                                    : Text(
+                                    ? const CircularProgressIndicator() // Show loading indicator
+                                    : const Text(
                                         "Send OTP",
                                         style: TextStyle(
                                           fontSize: 18,
@@ -365,7 +365,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   });
                                 },
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                             ],
@@ -399,7 +399,7 @@ class _LoginScreenState extends State<LoginScreen> {
         filled: true,
         fillColor: Colors.grey[200],
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+          borderSide: const BorderSide(color: Colors.orangeAccent, width: 2.0),
           borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(

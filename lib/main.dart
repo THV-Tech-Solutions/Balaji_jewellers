@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:jewellery/Login_Screens/user_check.dart';
 import 'package:jewellery/Login_Screens/welcome_screen.dart';
+import 'package:jewellery/Screens/home_screen.dart';
 import 'package:jewellery/Screens/tabs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,13 +41,14 @@ void main() async {
 class MyApp extends StatelessWidget {
   final bool userLoggedIn;
 
-  const MyApp({Key? key, required this.userLoggedIn}) : super(key: key);
+  const MyApp({super.key, required this.userLoggedIn});
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: userLoggedIn ? TabsScreen() : WelcomeScreen(),
+      home: userLoggedIn ? const TabsScreen() : const WelcomeScreen(),
+      // home: TabsScreen(),
       title: "Balaji Jewellers",
     );
   }

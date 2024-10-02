@@ -21,12 +21,11 @@ class SearchResultScreen extends StatefulWidget {
   final String mainImageUrl;
 
   const SearchResultScreen(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.categories,
       required this.mainFolder,
-      required this.mainImageUrl})
-      : super(key: key);
+      required this.mainImageUrl});
 
   @override
   _SearchResultScreenState createState() => _SearchResultScreenState();
@@ -101,7 +100,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: Colors.transparent,
+          backgroundColor: const Color.fromARGB(0, 255, 255, 255),
           child: Container(
             width: 400,
             height: 400, // Specify the height here
@@ -240,20 +239,20 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         leading: BackButton(
-          color: Colors.black,
+          color: Color.fromARGB(255, 255, 255, 255),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.grey[300],
         title: Text(
           '${widget.title}->${widget.categories}',
           style: GoogleFonts.rowdies(
             textStyle: const TextStyle(
-              color: Colors.black,
+              color: Color.fromARGB(255, 255, 255, 255),
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -279,35 +278,47 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
         ],
         elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Center(
-              child: Visibility(
-                visible: isLoading,
-                child: SpinKitCircle(
-                  size: 120,
-                  itemBuilder: (context, index) {
-                    final colors = [Colors.orangeAccent, Colors.black];
-                    final color = colors[index % colors.length];
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 101, 70, 1)
+            ], // Black to Gold gradient
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Center(
+                child: Visibility(
+                  visible: isLoading,
+                  child: SpinKitCircle(
+                    size: 120,
+                    itemBuilder: (context, index) {
+                      final colors = [Colors.orangeAccent, Colors.black];
+                      final color = colors[index % colors.length];
 
-                    return DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: color,
-                      ),
-                    );
-                  },
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: color,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: buildGridView(imageUrls),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-          ],
+              Expanded(
+                child: buildGridView(imageUrls),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -320,7 +331,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
         child: Container(
           width: 80.0, // Adjust the width of the rectangular container
           height: 56.0, // Adjust the height of the rectangular container
-          padding: EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(
                 11.0), // Adjust the border radius as needed
@@ -397,6 +408,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                       : null, // No border radius for non-main images
                 ),
                 child: Card(
+                  color: Color.fromARGB(115, 0, 0, 0),
                   elevation: 4,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16.0),
@@ -426,15 +438,15 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                         }
                       });
                     },
-                    child: Container(
+                    child: SizedBox(
                       height: 20,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Stack(
                             children: [
-                              Container(
-                                height: 190,
+                              SizedBox(
+                                height: 180,
                                 width: 190,
                                 child: ClipRRect(
                                   borderRadius: const BorderRadius.only(

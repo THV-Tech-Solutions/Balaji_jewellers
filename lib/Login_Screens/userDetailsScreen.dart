@@ -18,9 +18,9 @@ class userDetailsScreen extends StatefulWidget {
 }
 
 class _userDetailsScreenState extends State<userDetailsScreen> {
-  TextEditingController _userNameCtrl = TextEditingController();
-  TextEditingController _userEmailCtrl = TextEditingController();
-  TextEditingController _userCityCtrl = TextEditingController();
+  final TextEditingController _userNameCtrl = TextEditingController();
+  final TextEditingController _userEmailCtrl = TextEditingController();
+  final TextEditingController _userCityCtrl = TextEditingController();
   bool isLoading = false;
   String tempName = '';
   bool isCity = false;
@@ -70,16 +70,16 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(25),
+          padding: const EdgeInsets.all(25),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 70),
+              const SizedBox(height: 70),
               Container(
                 width: 150,
                 height: 150,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     image: AssetImage("assets/images/logo.png"),
@@ -87,7 +87,7 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               Card(
                 elevation: 10,
                 shape: RoundedRectangleBorder(
@@ -95,11 +95,11 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
                 ),
                 color: Colors.white,
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(
+                      const Text(
                         "Register",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -109,10 +109,10 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
                           fontFamily: 'Roboto',
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Text(
+                      const Text(
                         "Tell us more about yourself !",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -122,7 +122,7 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
                           fontFamily: 'Roboto',
                         ),
                       ),
-                      SizedBox(height: 25),
+                      const SizedBox(height: 25),
                       _buildTextFormField(
                         labelText: "Full Name",
                         prefixIcon: Icons.account_circle,
@@ -131,7 +131,7 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
                       ),
                       //fill name field end
 
-                      SizedBox(height: 25),
+                      const SizedBox(height: 25),
                       _buildTextFormField(
                         labelText: "Email",
                         prefixIcon: Icons.mail_rounded,
@@ -140,7 +140,7 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
                       ),
                       //email field end
 
-                      SizedBox(height: 25),
+                      const SizedBox(height: 25),
                       _buildTextFormField(
                         labelText: "City",
                         prefixIcon: Icons.location_city_rounded,
@@ -148,7 +148,7 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
                         controller: _userCityCtrl,
                       ),
                       //city field end
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       //save new user details to firestore button start
@@ -158,11 +158,11 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          padding: EdgeInsets.symmetric(vertical: 16),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
                         child: isLoading
-                            ? CircularProgressIndicator() // Show loading indicator
-                            : Text(
+                            ? const CircularProgressIndicator() // Show loading indicator
+                            : const Text(
                                 "Getting Started",
                                 style: TextStyle(
                                   fontSize: 18,
@@ -176,7 +176,7 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
                           if (_userNameCtrl.text.isNotEmpty &&
                               _userCityCtrl.text.isNotEmpty) {
                             await saveUserDataToFirestoreAndSharedPreferences();
-                            Get.offAll(TabsScreen());
+                            Get.offAll(const TabsScreen());
                           } else if (_userNameCtrl.text.isNotEmpty &&
                               _userCityCtrl.text.isEmpty) {
                             setState(() {
@@ -234,7 +234,7 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
 
                       //save new user details to firestore button end
 
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                     ],
@@ -264,7 +264,7 @@ class _userDetailsScreenState extends State<userDetailsScreen> {
         filled: true,
         fillColor: Colors.grey[200],
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.orangeAccent, width: 2.0),
+          borderSide: const BorderSide(color: Colors.orangeAccent, width: 2.0),
           borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
