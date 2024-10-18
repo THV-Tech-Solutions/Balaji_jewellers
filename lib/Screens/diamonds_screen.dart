@@ -62,8 +62,8 @@ class _DiamondScreenState extends State<DiamondScreen> {
     ['Stones', 'Plain'],
     ['Stones', 'Plain'],
     ['Stones', 'Plain'],
-    ['Ladies','Gents'],
-    ['Ladies','Gents'],
+    ['Ladies', 'Gents'],
+    ['Ladies', 'Gents'],
     ['Short Length', 'Long Length'],
     ['DD Balls Chains'],
     ['Stones', 'Plain'],
@@ -107,9 +107,10 @@ class _DiamondScreenState extends State<DiamondScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300], // Change to grey[300]
+      backgroundColor:
+          const Color.fromARGB(255, 0, 0, 0), // Change to grey[300]
       appBar: AppBar(
-        backgroundColor: Colors.grey[300], // Change to grey[300]
+        backgroundColor: Color.fromARGB(255, 0, 0, 0), // Change to grey[300]
         elevation: 0,
         title: Center(
           child: Text(
@@ -117,7 +118,7 @@ class _DiamondScreenState extends State<DiamondScreen> {
             style: GoogleFonts.rowdies(
               // Use your desired Google Font, e.g., 'lobster'
               textStyle: const TextStyle(
-                color: Colors.black,
+                color: Color.fromARGB(255, 255, 255, 255),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -125,7 +126,7 @@ class _DiamondScreenState extends State<DiamondScreen> {
           ),
         ),
         leading: BackButton(
-          color: Colors.black,
+          color: Colors.orangeAccent,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -136,7 +137,7 @@ class _DiamondScreenState extends State<DiamondScreen> {
             child: IconButton(
               icon: const Icon(
                 Icons.search,
-                color: Colors.black,
+                color: Color.fromARGB(255, 255, 255, 255),
                 size: 30,
               ),
               onPressed: () {
@@ -158,96 +159,109 @@ class _DiamondScreenState extends State<DiamondScreen> {
           ),
         ],
       ),
-      body: ListView.separated(
-        controller: _scrollController,
-        itemCount: filteredTitles.length,
-        separatorBuilder: (context, index) => const SizedBox(height: 10),
-        itemBuilder: (context, index) {
-          final category = filteredTitles[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                side: const BorderSide(color: Colors.orangeAccent, width: 1.0),
-              ),
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedCategory = titles[index];
-                    isCategorySelected = true;
-                    Future.delayed(const Duration(milliseconds: 500), () {
-                      setState(() {
-                        isCategorySelected = false;
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 58, 40, 0)
+            ], // Black to Gold gradient
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: ListView.separated(
+          controller: _scrollController,
+          itemCount: filteredTitles.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
+          itemBuilder: (context, index) {
+            final category = filteredTitles[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Card(
+                color: const Color.fromARGB(255, 0, 0, 0),
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                  side:
+                      const BorderSide(color: Colors.orangeAccent, width: 1.0),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      selectedCategory = titles[index];
+                      isCategorySelected = true;
+                      Future.delayed(const Duration(milliseconds: 500), () {
+                        setState(() {
+                          isCategorySelected = false;
+                        });
                       });
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CommonScreen(
+                            title: titles[index],
+                            categories: categoriesForTitles[index],
+                            mainFolder: mainFolder,
+                          ),
+                        ),
+                      );
                     });
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CommonScreen(
-                          title: titles[index],
-                          categories: categoriesForTitles[index],
-                          mainFolder: mainFolder,
-
-                        ),
-                      ),
-                    );
-                  });
-                },
-                borderRadius: BorderRadius.circular(16.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 60,
-                        height: 60,
-                        margin: const EdgeInsets.all(7.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/Diamond${index + 1}.png'),
-                            fit: BoxFit.contain,
-                          ),
-                          border: Border.all(
-                            color: Colors.black26,
-                            width: 1.0,
+                  },
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          margin: const EdgeInsets.all(7.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  'assets/images/Diamond${index + 1}.png'),
+                              fit: BoxFit.contain,
+                            ),
+                            border: Border.all(
+                              color: const Color.fromARGB(66, 255, 255, 255),
+                              width: 1.0,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              titles[index],
-                              style: GoogleFonts.vollkorn(
-                                textStyle: const TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                titles[index],
+                                style: GoogleFonts.vollkorn(
+                                  textStyle: const TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      const Icon(
-                        Icons.double_arrow,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(width: 10),
-                    ],
+                        const Icon(
+                          Icons.double_arrow,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(width: 10),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

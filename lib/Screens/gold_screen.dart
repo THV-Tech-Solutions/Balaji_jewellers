@@ -116,7 +116,7 @@ class _GoldScreenState extends State<GoldScreen> {
             style: GoogleFonts.rowdies(
               // Use your desired Google Font, e.g., 'lobster'
               textStyle: const TextStyle(
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: Colors.orangeAccent,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -124,7 +124,7 @@ class _GoldScreenState extends State<GoldScreen> {
           ),
         ),
         leading: BackButton(
-          color: const Color.fromARGB(255, 255, 255, 255),
+          color: Colors.orangeAccent,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -135,7 +135,7 @@ class _GoldScreenState extends State<GoldScreen> {
             child: IconButton(
               icon: const Icon(
                 Icons.search,
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: Colors.orangeAccent,
                 size: 30,
               ),
               onPressed: () {
@@ -210,7 +210,7 @@ class _GoldScreenState extends State<GoldScreen> {
                   },
                   borderRadius: BorderRadius.circular(16.0),
                   child: Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Row(
                       children: [
                         Container(
@@ -222,7 +222,8 @@ class _GoldScreenState extends State<GoldScreen> {
                             borderRadius: BorderRadius.circular(16.0),
                             image: DecorationImage(
                               image: AssetImage(
-                                  'assets/images/Gold${index + 1}.png'),
+                                  // 'assets/images/Gold${index + 1}.png'),
+                                  'assets/images/Goldss.png'),
                               fit: BoxFit.contain,
                             ),
                             border: Border.all(
@@ -240,11 +241,9 @@ class _GoldScreenState extends State<GoldScreen> {
                                 titles[index],
                                 style: GoogleFonts.vollkorn(
                                   textStyle: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors
-                                        .white, // Change text color to white
-                                  ),
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 255, 145, 0)),
                                 ),
                               ),
                             ],

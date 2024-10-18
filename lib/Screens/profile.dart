@@ -50,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       appBar: AppBar(
         backgroundColor: Colors.grey[300], // Change to grey[300]
         elevation: 0,
@@ -106,7 +106,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height * 0.45,
-              margin: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Colors.deepOrange.shade700, Colors.orange],
@@ -318,19 +319,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             Card(
               elevation: 5, // Add elevation for a card-like appearance
-              margin: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
               child: ProfileMenuWidget(
                   title: 'Help Center', icon: Icons.help, onPress: () {}),
             ),
             Card(
               elevation: 5, // Add elevation for a card-like appearance
-              margin: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
               child: ProfileMenuWidget(
                   title: 'Refer', icon: Icons.person_add, onPress: () {}),
             ),
             Card(
               elevation: 5, // Add elevation for a card-like appearance
-              margin: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
               child: ProfileMenuWidget(
                 title: 'Developers',
                 icon: Icons.developer_mode,
@@ -373,7 +377,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (isAdmin) ...[
               Card(
                 elevation: 5, // Add elevation for a card-like appearance
-                margin: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 10.0),
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 22.0, vertical: 10.0),
                 child: ProfileMenuWidget(
                   title: 'Recycle Bin',
                   icon: FontAwesomeIcons.dumpster,
@@ -502,7 +507,8 @@ class DeveloperInfo extends StatelessWidget {
   final String email;
   final String phone;
 
-  const DeveloperInfo({super.key, 
+  const DeveloperInfo({
+    super.key,
     required this.name,
     required this.email,
     required this.phone,

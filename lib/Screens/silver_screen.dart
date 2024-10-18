@@ -269,21 +269,20 @@ class _SilverScreenState extends State<SilverScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         leading: BackButton(
-          color: Colors.black,
+          color: const Color.fromARGB(255, 255, 255, 255),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.grey[300],
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         title: Center(
           child: Text(
             mainFolder,
             style: GoogleFonts.rowdies(
               textStyle: const TextStyle(
-                color: Colors.black,
+                color: Color.fromARGB(255, 255, 255, 255),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -296,7 +295,7 @@ class _SilverScreenState extends State<SilverScreen> {
             child: IconButton(
               icon: const Icon(
                 Icons.search,
-                color: Colors.black,
+                color: Color.fromARGB(255, 255, 255, 255),
                 size: 30,
               ),
               onPressed: () async {
@@ -322,153 +321,175 @@ class _SilverScreenState extends State<SilverScreen> {
         ],
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          // CUSTOM TABBAR
-          Container(
-            margin: const EdgeInsets.all(10),
-            width: double.infinity,
-            height: 60,
-            child: ListView.builder(
-              itemCount: titles.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (ctx, index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      currentTabIndex = index;
-                    });
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(3),
-                    // padding: const EdgeInsets.symmetric(horizontal: 8),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.02),
-
-                    decoration: BoxDecoration(
-                      color: currentTabIndex == index
-                          ? Colors.orange
-                          : Colors.white70,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                        color: currentTabIndex == index
-                            ? Colors.orange
-                            : Colors.grey,
-                        width: 2,
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        titles[index],
-                        style: GoogleFonts.mateSc(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: currentTabIndex == index
-                                ? Colors.white
-                                : Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 0, 0, 0),
+              Color.fromARGB(255, 49, 49, 49)
+            ], // Black to Gold gradient
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
+        ),
+        child: Column(
+          children: [
+            // CUSTOM TABBAR
+            Container(
+              margin: const EdgeInsets.all(10),
+              width: double.infinity,
+              height: 60,
+              child: ListView.builder(
+                itemCount: titles.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (ctx, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        currentTabIndex = index;
+                      });
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(3),
+                      // padding: const EdgeInsets.symmetric(horizontal: 8),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02),
 
-          // MAIN BODY
-          Expanded(
-            child: AnimatedList(
-              key: _listKey,
-              controller: _scrollController,
-              initialItemCount: categoriesForTitles[currentTabIndex].length,
-              itemBuilder: (context, itemIndex, animation) {
-                return LayoutBuilder(
-                  builder: (context, constraints) {
-                    // Calculate the item height based on the constraints
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Card(
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          side: const BorderSide(color: Colors.black, width: 1.0),
+                      decoration: BoxDecoration(
+                        color: currentTabIndex == index
+                            ? Color.fromARGB(255, 255, 255, 255)
+                            : const Color.fromARGB(179, 0, 0, 0),
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: currentTabIndex == index
+                              ? Color.fromARGB(255, 255, 255, 255)
+                              : Color.fromARGB(255, 255, 255, 255),
+                          width: 2,
                         ),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CommonScreen(
-                                  title: titles[currentTabIndex],
-                                  categories: [
-                                    categoriesForTitles[currentTabIndex]
-                                        [itemIndex]
-                                  ], // Wrap it in a list
-                                  mainFolder: mainFolder,
-                                ),
-                              ),
-                            );
-                          },
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 60,
-                                  height: 60,
-                                  margin: const EdgeInsets.all(7.0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16.0),
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        'assets/images/${itemImages[currentTabIndex][itemIndex]}',
-                                      ),
-                                      fit: BoxFit.contain,
-                                    ),
-                                    border: Border.all(
-                                      color: Colors.black26,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 20),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Text(
-                                        categoriesForTitles[currentTabIndex]
-                                            [itemIndex],
-                                        style: GoogleFonts.vollkorn(
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const Icon(
-                                  Icons.double_arrow,
-                                  color: Colors.grey,
-                                ),
-                                const SizedBox(width: 10),
-                              ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          titles[index],
+                          style: GoogleFonts.mateSc(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: currentTabIndex == index
+                                  ? const Color.fromARGB(255, 0, 0, 0)
+                                  : const Color.fromARGB(255, 255, 255, 255),
                             ),
                           ),
                         ),
                       ),
-                    );
-                  },
-                );
-              },
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+
+            // MAIN BODY
+            Expanded(
+              child: AnimatedList(
+                key: _listKey,
+                controller: _scrollController,
+                initialItemCount: categoriesForTitles[currentTabIndex].length,
+                itemBuilder: (context, itemIndex, animation) {
+                  return LayoutBuilder(
+                    builder: (context, constraints) {
+                      // Calculate the item height based on the constraints
+
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 5),
+                        child: Card(
+                          color: const Color.fromARGB(255, 0, 0,
+                              0), // Set the background to transparent
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                            side: const BorderSide(
+                              color: Color.fromARGB(255, 240, 240,
+                                  240), // Border color remains the same
+                              width: 1.0,
+                            ),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CommonScreen(
+                                    title: titles[currentTabIndex],
+                                    categories: [
+                                      categoriesForTitles[currentTabIndex]
+                                          [itemIndex]
+                                    ], // Wrap it in a list
+                                    mainFolder: mainFolder,
+                                  ),
+                                ),
+                              );
+                            },
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 60,
+                                    height: 60,
+                                    margin: const EdgeInsets.all(8.0),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          // 'assets/images/${itemImages[currentTabIndex][itemIndex]}',
+                                          'assets/images/silverss.png',
+                                        ),
+                                        fit: BoxFit.contain,
+                                      ),
+                                      border: Border.all(
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 20),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        Text(
+                                          categoriesForTitles[currentTabIndex]
+                                              [itemIndex],
+                                          style: GoogleFonts.vollkorn(
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: const Color.fromARGB(
+                                                255, 255, 255, 255),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const Icon(
+                                    Icons.double_arrow,
+                                    color: Colors.grey,
+                                  ),
+                                  const SizedBox(width: 10),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
